@@ -44,6 +44,10 @@ security:
         - { path: ^/api/signup$, roles: PUBLIC_ACCESS }
         - { path: ^/api/oauth/, roles: PUBLIC_ACCESS }
         - { path: ^/api/admin/login$, roles: PUBLIC_ACCESS }
+        # Public collection endpoints
+        - { path: ^/api/collections, roles: PUBLIC_ACCESS }
+        # Admin collection endpoints (require ROLE_ADMIN)
+        - { path: ^/api/admin/collections, roles: ROLE_ADMIN }
         # Protected endpoints
         - { path: ^/api/admin, roles: ROLE_ADMIN }
         - { path: ^/api/user, roles: ROLE_USER }

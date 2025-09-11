@@ -64,10 +64,14 @@ class Product
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\ManyToMany(targetEntity: ProductCollection::class, mappedBy: 'products')]
+    private Collection $productCollections;
+
     public function __construct()
     {
         $this->subCategories = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->productCollections = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -220,6 +224,31 @@ class Product
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductCollection>
+     */
+    public function getProductCollections(): Collection
+    {
+        return $this->productCollections;
+    }
+
+    public function addProductCollection(ProductCollection $productCollection): self
+    {
+        if (!$this->productCollections->contains($productCollection)) {
+            $this->productCollections->add($productCollection);
+            $productCollection->addProduct($this);
+        }
+        return $this;
+    }
+
+    public function removeProductCollection(ProductCollection $productCollection): self
+    {
+        if ($this->productCollections->removeElement($productCollection)) {
+            $productCollection->removeProduct($this);
+        }
         return $this;
     }
 }
