@@ -5,45 +5,46 @@ namespace App\Service;
 use App\Entity\Admin;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class AdminLoginService
 {
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly JWTTokenManagerInterface $jwtManager,
-    ) {}
+    private $entityManager;
+    private $jwtManager;
+    private $tokenStorage;
 
-    /**
-     * @return array{success: bool, token?: string, admin?: array{id: int|null, username: string, roles: array<string>}}
-     */
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        JWTTokenManagerInterface $jwtManager,
+        TokenStorageInterface $tokenStorage
+    ) {
+        $this->entityManager = $entityManager;
+        $this->jwtManager = $jwtManager;
+        $this->tokenStorage = $tokenStorage;
+    }
+
     public function authenticate(string $username, string $password): array
     {
-        $admin = $this->entityManager->getRepository(Admin::class)->findOneBy(['username' => strtolower($username)]);
+        $admin = $this->entityManager->getRepository(Admin::class)->findOneBy(['username' => $username]);
+
         if (!$admin) {
-            throw new AuthenticationException('Identifiants invalides.');
+            throw new AuthenticationException('Nom d\'utilisateur incorrect.');
         }
 
-        if (!$admin->getPassword()) {
-            throw new AuthenticationException('Ce compte administrateur n\'a pas de mot de passe configuré.');
+        if (!password_verify($password, $admin->getPassword())) {
+            throw new AuthenticationException('Mot de passe incorrect.');
         }
 
-        if (!$this->passwordHasher->isPasswordValid($admin, $password)) {
-            throw new AuthenticationException('Identifiants invalides.');
-        }
+        $token = new UsernamePasswordToken($admin, 'main', $admin->getRoles());
+        $this->tokenStorage->setToken($token);
 
-        $token = $this->jwtManager->create($admin);
+        $jwt = $this->jwtManager->create($admin);
 
         return [
             'success' => true,
-            'token' => $token,
-            'admin' => [
-                'id' => method_exists($admin, 'getId') ? $admin->getId() : null,
-                'username' => $admin->getUserIdentifier(),
-                'roles' => $admin->getRoles(),
-            ],
+            'token' => $jwt,
         ];
     }
 }

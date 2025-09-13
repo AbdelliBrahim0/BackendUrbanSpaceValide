@@ -1,0 +1,26 @@
+<form method="post" action="{{ path('admin_categories_delete', {'id': category.id}) }}" class="delete-form" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
+    <button class="btn btn-danger" type="submit">
+        <i class="fas fa-trash-alt me-2"></i>Supprimer
+    </button>
+</form>
+
+<style>
+    .delete-form .btn-danger {
+        background: linear-gradient(135deg, #ff5e62, #ff2d55);
+        border: none;
+        box-shadow: 0 4px 15px rgba(255, 45, 85, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .delete-form .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(255, 45, 85, 0.4);
+        background: linear-gradient(135deg, #ff2d55, #ff5e62);
+    }
+    
+    .delete-form .btn-danger:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 8px rgba(255, 45, 85, 0.4);
+    }
+</style>

@@ -1,66 +1,66 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+
     providers:
-        # Keep an in-memory provider if needed (not used for API auth)
-        users_in_memory: { memory: null }
-        # Entity providers for API authentication
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
+        # Provider pour les admins
         app_admin_provider:
             entity:
                 class: App\Entity\Admin
                 property: username
-        # Chain provider so JWT can resolve both User and Admin from token subject
+
+        # Fournisseur pour l'API (utilise uniquement app_admin_provider pour l'instant)
         app_chain_provider:
             chain:
-                providers: ['app_user_provider', 'app_admin_provider']
+                providers: ['app_admin_provider']
+
     firewalls:
+        # Firewall pour l'API (stateless, JWT)
+        api:
+            pattern: ^/api/
+            stateless: true
+            provider: app_chain_provider
+            json_login:
+                check_path: /api/admin/login
+                username_path: username
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        # Firewall pour les admins via formulaire Twig (session stateful)
+        admin:
+            pattern: ^/admin
+            provider: app_admin_provider
+            form_login:
+                login_path: admin_login        # Route vers le formulaire
+                check_path: admin_login        # Même route pour le formulaire et la vérification
+                default_target_path: admin_dashboard  # Redirection après succès
+                username_parameter: _username
+                password_parameter: _password
+                enable_csrf: true
+            logout:
+                path: admin_logout
+                target: /admin/login
+                invalidate_session: true
+
+
+        # Firewall dev (profilers, assets)
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            lazy: true
-            # Stateless API with JWT
-            stateless: true
-            provider: app_chain_provider
-            jwt: ~
-            # https://symfony.com/doc/current/security.html#the-firewall
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # Allow all CORS preflight requests
-        - { path: ^/, roles: PUBLIC_ACCESS, methods: [OPTIONS] }
-        # Public endpoints
+        # Accès public pour le login admin Twig
+        - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/logout$, roles: PUBLIC_ACCESS }
+        # Accès admin pour tout /admin
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
+        # Accès public pour l'API login
+        - { path: ^/api/admin/login$, roles: PUBLIC_ACCESS }
+        # Accès admin pour l'API
+        - { path: ^/api/admin, roles: ROLE_ADMIN }
+
+        # Exemple accès public /api/user et /api/signup
         - { path: ^/api/login$, roles: PUBLIC_ACCESS }
         - { path: ^/api/signup$, roles: PUBLIC_ACCESS }
         - { path: ^/api/oauth/, roles: PUBLIC_ACCESS }
-        - { path: ^/api/admin/login$, roles: PUBLIC_ACCESS }
-        # Public collection endpoints
-        - { path: ^/api/collections, roles: PUBLIC_ACCESS }
-        # Admin collection endpoints (require ROLE_ADMIN)
-        - { path: ^/api/admin/collections, roles: ROLE_ADMIN }
-        # Protected endpoints
-        - { path: ^/api/admin, roles: ROLE_ADMIN }
-        - { path: ^/api/user, roles: ROLE_USER }
-
-when@test:
-    security:
-        password_hashers:
-            # By default, password hashers are resource intensive and take time. This is
-            # important to generate secure password hashes. In tests however, secure hashes
-            # are not important, waste resources and increase test times. The following
-            # reduces the work factor to the lowest possible values.
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon

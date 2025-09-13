@@ -1,0 +1,496 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, rgba(48, 174, 229, 0.9), rgba(37, 200, 173, 0.9));
+            border-radius: 0 0 20px 20px;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(37, 200, 173, 0.3);
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            color: #fff;
+            font-weight: 700;
+            margin: 0;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .search-box {
+            max-width: 400px;
+            margin-bottom: 1rem;
+        }
+
+        .search-box input {
+            border-radius: 8px;
+            border: none;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(34,199,176,0.7);
+        }
+
+        .search-box button {
+            background: linear-gradient(90deg, #30aee6, #22c7b1);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+        .search-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(34,199,176,0.6);
+        }
+
+        .table-container {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(37, 200, 173, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .table-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #30aee5, #25c8ad);
+        }
+
+        table.dataTable {
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            margin-top: 0 !important;
+        }
+
+        table.dataTable thead th {
+            background: rgba(37, 200, 173, 0.1);
+            color: #25c8ad;
+            font-weight: 600;
+            border: none;
+            padding: 15px 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        table.dataTable tbody td {
+            padding: 15px 10px;
+            border-top: none;
+            background: #2a2a2a;
+            color: #ffffff;
+            vertical-align: middle;
+        }
+
+        table.dataTable tbody tr:first-child td:first-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        table.dataTable tbody tr:first-child td:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        tbody tr:hover td {
+            background-color: rgba(37, 200, 173, 0.1);
+        }
+
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_processing,
+        .dataTables_wrapper .dataTables_paginate {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: linear-gradient(135deg, #30aee5, #25c8ad) !important;
+            color: white !important;
+            border: none;
+            border-radius: 50%;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: rgba(37, 200, 173, 0.2) !important;
+            color: white !important;
+            border: 1px solid rgba(37, 200, 173, 0.4);
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #22c7b0;
+            transition: transform 0.2s;
+        }
+        .user-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .badge {
+            font-weight: 600;
+            text-shadow: 0 0 3px rgba(0,0,0,0.3);
+            margin: 0.2rem;
+        }
+        .badge.bg-danger { background: linear-gradient(90deg, #ff5f6d, #ffc371); }
+        .badge.bg-primary { background: linear-gradient(90deg, #30aee6, #22c7b1); }
+        .badge.bg-secondary { background: #6c757d; }
+
+        .btn-action {
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+            margin: 0 2px;
+            min-width: 100px;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-details {
+            background: linear-gradient(90deg, #2db5d9, #1a8fb4);
+        }
+        
+        .btn-block-user {
+            background: linear-gradient(90deg, #30aee6, #22c7b1);
+        }
+        
+        .btn-details:hover, .btn-block-user:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(45, 181, 217, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .search-box {
+                max-width: 100%;
+            }
+            thead th {
+                font-size: 0.8rem;
+            }
+            tbody td {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Specific color for modal field labels */
+        .modal-body h6 {
+            color: #1e96bb !important;
+            font-weight: 600;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="page-header animate__animated animate__fadeIn">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center header">
+            <h1><i class="fas fa-users me-3"></i>Gestion des utilisateurs</h1>
+            <a href="{{ path('admin_dashboard') }}" class="btn-back">
+                <i class="fas fa-arrow-left me-2"></i> Retour au dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid animate__animated animate__fadeInUp animate__delay-1s">
+
+    <!-- Search -->
+    <div class="search-box mb-3">
+        <form method="get" action="{{ path('admin_users_index') }}" class="d-flex">
+            <input type="text" name="search" class="form-control me-2" placeholder="Rechercher..." value="{{ search }}">
+            <button type="submit"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+
+    <!-- Users Table -->
+    <div class="table-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-table me-2" style="color: #25c8ad;"></i>
+                <h5 class="mb-0" style="color: #25c8ad; font-weight: 600;">Liste des utilisateurs</h5>
+            </div>
+            <div class="user-stats">
+                <span class="badge" style="background: rgba(37, 200, 173, 0.2); color: #25c8ad;">
+                    <i class="fas fa-users me-1"></i> {{ users|length }} utilisateur(s)
+                </span>
+            </div>
+        </div>
+        <table id="usersTable" class="table table-borderless align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Photo</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>
+                            {% if user.avatar %}
+                                <img src="{{ user.avatar }}" alt="Avatar" class="user-avatar">
+                            {% else %}
+                                <div class="user-avatar bg-secondary d-flex align-items-center justify-content-center">
+                                    {{ user.nom|first|upper }}
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>{{ user.nom }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.telephone }}</td>
+                        <td class="text-nowrap">
+                            <button type="button" class="btn-action btn-details" data-bs-toggle="modal" data-bs-target="#userDetailsModal" 
+                                    data-user='{{ {
+                                        'id': user.id,
+                                        'nom': user.nom,
+                                        'email': user.email,
+                                        'telephone': user.telephone,
+                                        'adresse': user.adresse,
+                                        'dateInscription': user.dateInscription|date('d/m/Y H:i'),
+                                        'roles': user.roles,
+                                        'avatar': user.avatar
+                                    }|json_encode|e('html_attr') }}'>
+                                <i class="bi bi-eye"></i> Détails
+                            </button>
+                            <form method="post" action="{{ path('admin_users_delete', {'id': user.id}) }}" 
+                                  onsubmit="return confirm('Êtes-vous sûr de vouloir bloquer définitivement cet utilisateur ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                            <button type="submit" class="btn-details"><i class="bi bi-person-x"></i> Bloquer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">Aucun utilisateur trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Détails Utilisateur -->
+<div class="modal fade" id="userDetailsModal" tabindex="-1" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-dark text-white border-0">
+            <div class="modal-header border-0" style="background: linear-gradient(90deg, #2db5d9, #1a8fb4);">
+                <h5 class="modal-title" id="userDetailsModalLabel">Détails de l'utilisateur</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <div id="userAvatar" class="mb-3" style="font-size: 6rem;">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <div id="userRoleBadges" class="mb-3"></div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <h4 id="userName" class="text-gradient"></h4>
+                                <p class="text-muted">ID: <span id="userId" class="text-white"></span></p>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="p-3 bg-dark rounded border border-secondary">
+                                        <h6 class="text-muted mb-2">Email</h6>
+                                        <p id="userEmail" class="mb-0"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-3 bg-dark rounded border border-secondary">
+                                        <h6 class="text-muted mb-2">Téléphone</h6>
+                                        <p id="userPhone" class="mb-0"></p>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="p-3 bg-dark rounded border border-secondary">
+                                        <h6 class="text-muted mb-2">Adresse</h6>
+                                        <p id="userAddress" class="mb-0"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-3 bg-dark rounded border border-secondary">
+                                        <h6 class="text-muted mb-2">Inscrit le</h6>
+                                        <p id="userJoinDate" class="mb-0"></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-3 bg-dark rounded border border-secondary h-100">
+                                        <h6 class="text-muted mb-2">Statut</h6>
+                                        <p id="userStatus" class="mb-0">
+                                            <span class="badge bg-success">Actif</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 bg-dark">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">
+                    <i class="bi bi-pencil"></i> Modifier
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#usersTable').DataTable({
+                pageLength: 10,
+                lengthMenu: [5, 10, 25, 50],
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/fr-FR.json'
+                },
+                columnDefs: [
+                    { orderable: false, targets: [1, 5] },
+                    { className: 'text-center', targets: [0, 1, 4, 5] }
+                ]
+            });
+
+            // Auto-hide alerts after 5 seconds
+            setTimeout(function() {
+                $('.alert').fadeOut('slow', function() {
+                    $(this).remove();
+                });
+            }, 5000);
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const userDetailsModal = document.getElementById('userDetailsModal');
+            if (userDetailsModal) {
+                userDetailsModal.addEventListener('show.bs.modal', function(event) {
+                    const button = event.relatedTarget;
+                    const userData = JSON.parse(button.getAttribute('data-user'));
+
+                    // Mettre à jour les informations du modal
+                    document.getElementById('userName').textContent = userData.nom;
+                    document.getElementById('userId').textContent = '#' + userData.id;
+                    document.getElementById('userEmail').textContent = userData.email || 'Non renseigné';
+                    document.getElementById('userPhone').textContent = userData.telephone || 'Non renseigné';
+                    document.getElementById('userAddress').textContent = userData.adresse || 'Non renseignée';
+                    document.getElementById('userJoinDate').textContent = userData.dateInscription;
+
+                    // Mettre à jour l'avatar
+                    const userAvatar = document.getElementById('userAvatar');
+                    if (userData.avatar) {
+                        userAvatar.innerHTML = `<img src="${userData.avatar}" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;" alt="Avatar">`;
+                    } else {
+                        userAvatar.innerHTML = `<div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width: 120px; height: 120px; font-size: 3rem; margin: 0 auto;">
+                            ${userData.nom ? userData.nom.charAt(0).toUpperCase() : '?'}
+                        </div>`;
+                    }
+
+                    // Mettre à jour les rôles
+                    const rolesContainer = document.getElementById('userRoleBadges');
+                    rolesContainer.innerHTML = '';
+                    if (userData.roles && userData.roles.length > 0) {
+                        userData.roles.forEach(role => {
+                            let badgeClass = 'badge bg-secondary me-1 mb-1';
+                            if (role === 'ROLE_ADMIN') badgeClass = 'badge bg-danger me-1 mb-1';
+                            else if (role === 'ROLE_USER') badgeClass = 'badge bg-primary me-1 mb-1';
+
+                            const roleBadge = document.createElement('span');
+                            roleBadge.className = badgeClass;
+                            roleBadge.textContent = role.replace('ROLE_', '');
+                            rolesContainer.appendChild(roleBadge);
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}
+{% endblock %}
+

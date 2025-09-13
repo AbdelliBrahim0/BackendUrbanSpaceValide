@@ -1,0 +1,323 @@
+a{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle sous-catégorie{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, rgba(48, 174, 229, 0.9), rgba(37, 200, 173, 0.9));
+            border-radius: 0 0 20px 20px;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(37, 200, 173, 0.3);
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        h1 {
+            color: #fff;
+            font-weight: 700;
+            margin: 0;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(37, 200, 173, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #30aee5, #25c8ad);
+        }
+
+        .form-label {
+            color: #25c8ad;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(37, 200, 173, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #25c8ad;
+            box-shadow: 0 0 0 0.25rem rgba(37, 200, 173, 0.25);
+            color: #fff;
+        }
+
+        .text-danger {
+            color: #ff6b6b !important;
+        }
+
+        .text-muted {
+            color: rgba(255, 255, 255, 0.6) !important;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #30aee5, #25c8ad);
+            border: none;
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(37, 200, 173, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 200, 173, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .btn-light {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-light:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .select2-container--bootstrap4 .select2-selection {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(37, 200, 173, 0.2);
+            border-radius: 10px;
+            color: #fff;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
+            background: linear-gradient(135deg, #30aee5, #25c8ad);
+            border: none;
+            border-radius: 30px;
+            color: #fff;
+            padding: 2px 10px;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
+            color: rgba(255, 255, 255, 0.7);
+            margin-right: 5px;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove:hover {
+            color: #fff;
+        }
+
+        /* Custom Select2 dark theme */
+        .select2-container--bootstrap4 .select2-results__option {
+            background-color: #1e1e1e !important;
+            color: #ffffff !important;
+        }
+
+        .select2-container--bootstrap4 .select2-results__option--highlighted {
+            background-color: #25c8ad !important;
+            color: #000000 !important;
+        }
+
+        .select2-container--bootstrap4 .select2-results__option:hover {
+            background-color: #333333 !important;
+            color: #ffffff !important;
+        }
+
+        .select2-dropdown {
+            background-color: #1e1e1e !important;
+            border: 1px solid #25c8ad !important;
+        }
+
+        .form-section {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border-left: 3px solid #25c8ad;
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            background: rgba(37, 200, 173, 0.05);
+            transform: translateX(5px);
+        }
+
+        .form-section-title {
+            color: #25c8ad;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-section-title i {
+            margin-right: 0.5rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="page-header animate__animated animate__fadeIn">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1><i class="fas fa-folder-plus me-3"></i>Créer une nouvelle sous-catégorie</h1>
+                <a href="{{ path('admin_subcategories_index') }}" class="btn-back">
+                    <i class="fas fa-arrow-left me-2"></i> Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid animate__animated animate__fadeInUp animate__delay-1s">
+        <div class="form-card">
+            <div class="d-flex align-items-center mb-4">
+                <div class="category-icon me-3" style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #30aee5, #25c8ad); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-sitemap text-white"></i>
+                </div>
+                <h4 class="mb-0" style="color: #25c8ad; font-weight: 600;">Informations de la sous-catégorie</h4>
+            </div>
+
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-info-circle"></i> Informations de base
+                    </div>
+
+                    <div class="form-group row mb-4">
+                        {{ form_label(form.name, 'Nom de la sous-catégorie', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-text" style="background: rgba(37, 200, 173, 0.1); border: 1px solid rgba(37, 200, 173, 0.2); border-right: none; color: #25c8ad;">
+                                    <i class="fas fa-tag"></i>
+                                </span>
+                                {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le nom de la sous-catégorie'}}) }}
+                            </div>
+                            <small class="text-danger">{{ form_errors(form.name) }}</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-sitemap"></i> Relations
+                    </div>
+
+                    <div class="form-group row mb-4">
+                        {{ form_label(form.categories, 'Catégories associées', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
+                        <div class="col-sm-9">
+                            {{ form_widget(form.categories, {'attr': {'class': 'form-control select2-multiple', 'data-placeholder': 'Sélectionnez des catégories'}}) }}
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i> Sélectionnez les catégories à associer à cette sous-catégorie
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        {{ form_label(form.products, 'Produits associés', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
+                        <div class="col-sm-9">
+                            {{ form_widget(form.products, {'attr': {'class': 'form-control select2-multiple', 'data-placeholder': 'Sélectionnez des produits'}}) }}
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i> Sélectionnez les produits à associer à cette sous-catégorie
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mt-4">
+                    <div class="col-sm-9 offset-sm-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i> Créer la sous-catégorie
+                        </button>
+                        <a href="{{ path('admin_subcategories_index') }}" class="btn btn-light">
+                            <i class="fas fa-times me-2"></i> Annuler
+                        </a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2-multiple').select2({
+                theme: 'bootstrap4',
+                width: '100%',
+                placeholder: 'Sélectionnez des options',
+                allowClear: true
+            });
+        });
+    </script>
+{% endblock %}

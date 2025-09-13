@@ -62,12 +62,11 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        // Admins have at least ROLE_ADMIN. No dynamic roles stored.
         return ['ROLE_ADMIN'];
     }
 
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
+        // Rien à effacer pour le moment
     }
 }
