@@ -10,20 +10,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         body {
-            background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
+            background: linear-gradient(135deg, #1a3378 0%, #1a3378 100%);
             color: #fff;
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
         }
 
         .page-header {
-            background: linear-gradient(135deg, rgba(48, 174, 229, 0.9), rgba(37, 200, 173, 0.9));
+            background: linear-gradient(135deg, rgba(48, 174, 229, 0.9), rgba(37, 83, 200, 0.9));
             border-radius: 0 0 20px 20px;
             padding: 2rem 0;
             margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(37, 200, 173, 0.3);
+            box-shadow: 0 10px 30px rgb(37, 85, 194);
         }
 
         .page-header::before {
@@ -83,11 +83,11 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, #30aee5, #25c8ad);
+            background: linear-gradient(90deg, #30aee5, #2546c8);
         }
 
         .form-label {
-            color: #25c8ad;
+            color: #2571c8;
             font-weight: 600;
             margin-bottom: 0.5rem;
             display: flex;
@@ -105,8 +105,8 @@
 
         .form-control:focus {
             background: rgba(255, 255, 255, 0.15);
-            border-color: #25c8ad;
-            box-shadow: 0 0 0 0.25rem rgba(37, 200, 173, 0.25);
+            border-color: #252dc8;
+            box-shadow: 0 0 0 0.25rem rgba(37, 94, 200, 0.25);
             color: #fff;
         }
 
@@ -120,18 +120,18 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #30aee5, #25c8ad);
+            background: linear-gradient(135deg, #30aee5, #2533c8);
             border: none;
             border-radius: 50px;
             padding: 0.75rem 1.5rem;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(37, 200, 173, 0.3);
+            box-shadow: 0 5px 15px rgba(37, 70, 200, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 200, 173, 0.5);
+            box-shadow: 0 8px 25px rgba(37, 102, 200, 0.5);
             filter: brightness(1.1);
         }
 
@@ -158,7 +158,7 @@
         }
 
         .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
-            background: linear-gradient(135deg, #30aee5, #25c8ad);
+            background: linear-gradient(135deg, #30aee5, #255ec8);
             border: none;
             border-radius: 30px;
             color: #fff;
@@ -181,7 +181,7 @@
         }
 
         .select2-container--bootstrap4 .select2-results__option--highlighted {
-            background-color: #25c8ad !important;
+            background-color: #258ac8 !important;
             color: #000000 !important;
         }
 
@@ -192,11 +192,11 @@
 
         .select2-dropdown {
             background-color: #1e1e1e !important;
-            border: 1px solid #25c8ad !important;
+            border: 1px solid #2833f6 !important;
         }
 
         .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
-            background: linear-gradient(135deg, #30aee5, #25c8ad) !important;
+            background: linear-gradient(135deg, #30aee5, #252dc8) !important;
             border: none !important;
             border-radius: 20px !important;
             color: #000000 !important;
@@ -208,7 +208,7 @@
             padding: 1.5rem;
             background: rgba(255, 255, 255, 0.03);
             border-radius: 15px;
-            border-left: 3px solid #25c8ad;
+            border-left: 3px solid #2540c8;
             transition: all 0.3s ease;
         }
 
@@ -218,7 +218,7 @@
         }
 
         .form-section-title {
-            color: #25c8ad;
+            color: #256cc8;
             font-weight: 600;
             margin-bottom: 1rem;
             display: flex;
@@ -241,7 +241,7 @@
         }
 
         .url-preview a {
-            color: #25c8ad;
+            color: #2546c8;
             text-decoration: none;
         }
 
@@ -267,10 +267,10 @@
     <div class="container-fluid animate__animated animate__fadeInUp animate__delay-1s">
         <div class="form-card">
             <div class="d-flex align-items-center mb-4">
-                <div class="collection-icon me-3" style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #30aee5, #25c8ad); display: flex; align-items: center; justify-content: center;">
+                <div class="collection-icon me-3" style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #30aee5, #2540c8); display: flex; align-items: center; justify-content: center;">
                     <i class="fas fa-box text-white"></i>
                 </div>
-                <h4 class="mb-0" style="color: #25c8ad; font-weight: 600;">Informations de la collection</h4>
+                <h4 class="mb-0" style="color: #2553c8; font-weight: 600;">Informations de la collection</h4>
             </div>
 
             {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
@@ -283,7 +283,7 @@
                         {{ form_label(form.name, 'Nom de la collection', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
                         <div class="col-sm-9">
                             <div class="input-group">
-                                <span class="input-group-text" style="background: rgba(37, 200, 173, 0.1); border: 1px solid rgba(37, 200, 173, 0.2); border-right: none; color: #25c8ad;">
+                                <span class="input-group-text" style="background: rgba(37, 200, 173, 0.1); border: 1px solid rgba(37, 200, 173, 0.2); border-right: none; color: #2566c8;">
                                     <i class="fas fa-tag"></i>
                                 </span>
                                 {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le nom de la collection'}}) }}

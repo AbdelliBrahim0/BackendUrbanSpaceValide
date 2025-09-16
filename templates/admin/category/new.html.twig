@@ -4,326 +4,645 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <style>
-        body { 
-            background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%); 
-            color: #fff; 
-            font-family: 'Poppins', sans-serif; 
-            min-height: 100vh;
+        :root {
+            --primary: #3b82f6;
+            --secondary: #60a5fa;
+            --error: #ef4444;
+            --success: #10b981;
+            --bg-primary: #0a1a3a;
+            --bg-secondary: #1e3a8a;
+            --surface: rgba(17, 24, 39, 0.95);
+            --card-bg: rgba(31, 41, 55, 0.8);
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border: rgba(59, 130, 246, 0.2);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
-        
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Page Header */
         .page-header {
-            background: linear-gradient(135deg, rgba(48, 174, 229, 0.9), rgba(37, 200, 173, 0.9));
-            border-radius: 0 0 20px 20px;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            border-radius: 0 0 24px 24px;
+            padding: 2.5rem 0;
+            margin-bottom: 2.5rem;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(37, 200, 173, 0.3);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(-20px);
         }
-        
+
         .page-header::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
-        
-        h1 { 
-            color: #fff; 
-            font-weight: 700; 
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-title h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             margin: 0;
-            font-size: 2.2rem;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 2;
         }
-        
-        .btn-back {
-            background: rgba(255, 255, 255, 0.2); 
-            color: #fff; 
-            font-weight: 600; 
-            border-radius: 50px;
-            padding: 0.75rem 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-modern {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border: none;
+            color: #ffffff;
+            padding: 0.75rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
-        
-        .btn-back:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.3);
+
+        .btn-modern.btn-secondary {
+            background: #4b5563;
         }
-        
-        .form-card {
-            background: rgba(30, 30, 30, 0.8);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(37, 200, 173, 0.1);
+
+        .btn-modern:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-modern.btn-secondary:hover {
+            background: #6b7280;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
-            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
         }
-        
-        .form-card::before {
+
+        .form-container::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #30aee5, #25c8ad);
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
-        
-        .form-label {
-            color: #25c8ad;
+
+        .form-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
             font-weight: 600;
+            color: var(--secondary);
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
+            gap: 0.75rem;
         }
-        
+
+        .form-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         .form-control {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(37, 200, 173, 0.2);
-            border-radius: 10px;
-            color: #fff;
-            padding: 0.75rem 1rem;
+            width: 100%;
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
-        
+
         .form-control:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #25c8ad;
-            box-shadow: 0 0 0 0.25rem rgba(37, 200, 173, 0.25);
-            color: #fff;
-        }
-        
-        .text-danger {
-            color: #ff6b6b !important;
-        }
-        
-        .text-muted {
-            color: rgba(255, 255, 255, 0.6) !important;
-            font-size: 0.85rem;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #30aee5, #25c8ad);
-            border: none;
-            border-radius: 50px;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(37, 200, 173, 0.3);
-        }
-        
-        .btn-primary:hover {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+            background: rgba(31, 41, 55, 1);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 200, 173, 0.5);
-            filter: brightness(1.1);
         }
-        
-        .btn-light {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            border-radius: 50px;
-            padding: 0.75rem 1.5rem;
-            font-weight: 500;
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Floating Label Effect */
+        .form-group.floating {
+            position: relative;
+        }
+
+        .form-group.floating .form-control {
+            padding-top: 1.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group.floating .form-label {
+            position: absolute;
+            top: 1rem;
+            left: 1.25rem;
+            background: transparent;
+            padding: 0 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
             transition: all 0.3s ease;
-        }
-        
-        .btn-light:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-        }
-        
-        .select2-container--bootstrap4 .select2-selection {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(37, 200, 173, 0.2);
-            border-radius: 10px;
-            color: #fff;
-        }
-        
-        .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
-            background: linear-gradient(135deg, #30aee5, #25c8ad);
-            border: none;
-            border-radius: 30px;
-            color: #fff;
-            padding: 2px 10px;
-        }
-        
-        .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
-            color: rgba(255, 255, 255, 0.7);
-            margin-right: 5px;
-        }
-        
-        .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove:hover {
-            color: #fff;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        /* Custom Select2 dark theme */
-        .select2-container--bootstrap4 .select2-results__option {
-            background-color: #1e1e1e !important;
-            color: #ffffff !important;
-        }
-
-        .select2-container--bootstrap4 .select2-results__option--highlighted {
-            background-color: #25c8ad !important;
-            color: #000000 !important;
-        }
-
-        .select2-container--bootstrap4 .select2-results__option:hover {
-            background-color: #333333 !important;
-            color: #ffffff !important;
-        }
-
-        .select2-dropdown {
-            background-color: #1e1e1e !important;
-            border: 1px solid #25c8ad !important;
-
-        .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
-            background: linear-gradient(135deg, #30aee5, #25c8ad) !important;
-            border: none !important;
-            border-radius: 20px !important;
-            color: #000000 !important;
-            padding: 2px 8px !important;
-        }
-        
-        .form-section {
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 15px;
-            border-left: 3px solid #25c8ad;
-            transition: all 0.3s ease;
-        }
-        
-        .form-section:hover {
-            background: rgba(37, 200, 173, 0.05);
-            transform: translateX(5px);
-        }
-        
-        .form-section-title {
-            color: #25c8ad;
+        .form-group.floating .form-control:focus + .form-label,
+        .form-group.floating .form-control:not(:placeholder-shown) + .form-label {
+            top: -0.5rem;
+            font-size: 0.75rem;
+            color: var(--primary);
             font-weight: 600;
-            margin-bottom: 1rem;
+            background: var(--surface);
+        }
+
+        /* Textarea */
+        .form-control.textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .btn-cancel {
+            background: #4b5563;
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-cancel:hover {
+            background: #6b7280;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Error Messages */
+        .form-error {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
             display: flex;
             align-items: center;
+            gap: 0.5rem;
         }
-        
-        .form-section-title i {
-            margin-right: 0.5rem;
+
+        /* Success Animation */
+        .success-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--surface);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            scale: 0.8;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        /* Icon styles */
+        .icon {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .icon-sm {
+            width: 16px;
+            height: 16px;
+        }
+
+        .icon-lg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .header-container {
+                padding: 0 1rem;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-title h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-modern {
+                justify-content: center;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            opacity: 0;
+            transform: translateY(30px);
         }
     </style>
 {% endblock %}
 
 {% block body %}
-    <div class="page-header animate__animated animate__fadeIn">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center">
-                <h1><i class="fas fa-folder-plus me-3"></i>Créer une nouvelle catégorie</h1>
-                </br>
-                <a href="{{ path('admin_categories_index') }}" class="btn btn-back">
-                    <i class="fas fa-arrow-left me-2"></i> Retour à la liste
+    <div class="page-header loading">
+        <div class="header-container">
+            <div class="header-title">
+                <div class="header-icon">
+                    <svg class="icon icon-lg" viewBox="0 0 24 24" fill="white">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <h1>Nouvelle catégorie</h1>
+            </div>
+            <div class="header-actions">
+                <a href="{{ path('admin_categories_index') }}" class="btn-modern btn-secondary">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24">
+                        <path d="M19 12H5"/>
+                        <path d="M12 19l-7-7 7-7"/>
+                    </svg>
+                    Retour à la liste
                 </a>
             </div>
         </div>
     </div>
 
-    <div class="container-fluid animate__animated animate__fadeInUp animate__delay-1s">
-        <div class="form-card">
-            <div class="d-flex align-items-center mb-4">
-                <div class="category-icon me-3" style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #30aee5, #25c8ad); display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-tag text-white"></i>
-                </div>
-                <h4 class="mb-0" style="color: #25c8ad; font-weight: 600;">Informations de la catégorie</h4>
+    <div class="main-container">
+        <div class="form-container loading">
+            <div class="form-title">
+                <svg class="icon" viewBox="0 0 24 24" style="color: var(--primary);">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                Créer une nouvelle catégorie
             </div>
-            
-            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-                <div class="form-section">
-                    <div class="form-section-title">
-                        <i class="fas fa-info-circle"></i> Informations de base
-                    </div>
-                    
-                    <div class="form-group row mb-4">
-                        {{ form_label(form.name, 'Nom de la catégorie', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <span class="input-group-text" style="background: rgba(37, 200, 173, 0.1); border: 1px solid rgba(37, 200, 173, 0.2); border-right: none; color: #25c8ad;">
-                                    <i class="fas fa-tag"></i>
-                                </span>
-                                {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le nom de la catégorie'}}) }}
-                            </div>
-                            <small class="text-danger">{{ form_errors(form.name) }}</small>
-                        </div>
-                    </div>
-                </div>
+            <p class="form-subtitle">
+                Ajoutez une nouvelle catégorie de produits à votre catalogue. Les catégories permettent d'organiser vos produits de manière logique.
+            </p>
 
-                <div class="form-section">
-                    <div class="form-section-title">
-                        <i class="fas fa-sitemap"></i> Relations
-                    </div>
-                    
-                    <div class="form-group row mb-4">
-                        {{ form_label(form.subCategories, 'Sous-catégories associées', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
-                        <div class="col-sm-9">
-                            {{ form_widget(form.subCategories, {'attr': {'class': 'form-control select2-multiple', 'data-placeholder': 'Sélectionnez des sous-catégories'}}) }}
-                            <small class="text-muted">
-                                <i class="fas fa-info-circle me-1"></i> Sélectionnez les sous-catégories à associer à cette catégorie
-                            </small>
-                        </div>
-                    </div>
+            {{ form_start(form, {'attr': {'class': 'category-form', 'novalidate': 'novalidate'}}) }}
 
-                    <div class="form-group row mb-3">
-                        {{ form_label(form.products, 'Produits associés', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
-                        <div class="col-sm-9">
-                            {{ form_widget(form.products, {'attr': {'class': 'form-control select2-multiple', 'data-placeholder': 'Sélectionnez des produits'}}) }}
-                            <small class="text-muted">
-                                <i class="fas fa-info-circle me-1"></i> Sélectionnez les produits à associer à cette catégorie
-                            </small>
-                        </div>
+            <div class="form-group floating">
+                {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': ' '}}) }}
+                {{ form_label(form.name, 'Nom de la catégorie', {'label_attr': {'class': 'form-label'}}) }}
+                {% if form_errors(form.name) %}
+                    <div class="form-error">
+                        <svg class="icon icon-sm" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                        {{ form_errors(form.name) }}
                     </div>
-                </div>
+                {% endif %}
+            </div>
 
-                <div class="form-group row mt-4">
-                    <div class="col-sm-9 offset-sm-3 d-flex justify-content-between">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save me-2"></i> Enregistrer la catégorie
-                        </button>
-                        <a href="{{ path('admin_categories_index') }}" class="btn btn-light">
-                            <i class="fas fa-times me-2"></i> Annuler
-                        </a>
-                    </div>
+            {% if form.description is defined %}
+                <div class="form-group floating">
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control textarea', 'placeholder': ' '}}) }}
+                    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                    {% if form_errors(form.description) %}
+                        <div class="form-error">
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="15" y1="9" x2="9" y2="15"/>
+                                <line x1="9" y1="9" x2="15" y2="15"/>
+                            </svg>
+                            {{ form_errors(form.description) }}
+                        </div>
+                    {% endif %}
                 </div>
+            {% endif %}
+
+            <div class="form-actions">
+                <a href="{{ path('admin_categories_index') }}" class="btn-modern btn-cancel">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    Annuler
+                </a>
+                <button type="submit" class="btn-modern btn-primary">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24">
+                        <polyline points="20,6 9,17 4,12"/>
+                    </svg>
+                    Créer la catégorie
+                </button>
+            </div>
+
             {{ form_end(form) }}
         </div>
     </div>
-{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.select2-multiple').select2({
-                theme: 'bootstrap4',
-                width: '100%',
-                placeholder: 'Sélectionnez des options',
-                allowClear: true
+        // GSAP Animations
+        window.addEventListener('load', function() {
+            // Page header animation
+            gsap.to('.page-header', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            });
+
+            // Form container animation
+            gsap.to('.form-container', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                delay: 0.2
+            });
+
+            // Form elements animation
+            gsap.to('.form-group', {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: "power3.out",
+                delay: 0.4
+            });
+        });
+
+        // Form submission with success animation
+        document.querySelector('.category-form').addEventListener('submit', function(e) {
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+
+            // Show loading state with animation
+            gsap.to(submitBtn, {
+                scale: 0.95,
+                duration: 0.1,
+                yoyo: true,
+                repeat: 1,
+                ease: "power2.inOut"
+            });
+
+            submitBtn.innerHTML = `
+            <svg class="icon icon-sm animate-spin" viewBox="0 0 24 24">
+                <path d="M21 12a9 9 0 11-6.219-8.56"/>
+            </svg>
+            Création en cours...
+        `;
+            submitBtn.disabled = true;
+
+            // Add spinning animation
+            const style = document.createElement('style');
+            style.textContent = `
+            .animate-spin {
+                animation: spin 1s linear infinite;
+            }
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+            document.head.appendChild(style);
+
+            // Simulate success animation (remove in actual implementation if backend handles redirect)
+            setTimeout(() => {
+                const successModal = document.createElement('div');
+                successModal.className = 'success-animation';
+                successModal.innerHTML = `
+                <div class="success-icon">
+                    <svg class="icon icon-lg" viewBox="0 0 24 24" fill="white">
+                        <polyline points="20,6 9,17 4,12"/>
+                    </svg>
+                </div>
+                <h3 style="color: var(--text-primary); font-family: 'Poppins', sans-serif; margin-bottom: 0.5rem;">Catégorie créée</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                    La catégorie a été créée avec succès !
+                </p>
+                <button class="btn-modern btn-primary" onclick="window.location.href='${path('admin_categories_index')}'">
+                    Retour à la liste
+                </button>
+            `;
+                document.body.appendChild(successModal);
+
+                gsap.to(successModal, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "back.out(1.7)"
+                });
+
+                setTimeout(() => {
+                    gsap.to(successModal, {
+                        opacity: 0,
+                        scale: 0.8,
+                        duration: 0.3,
+                        ease: "power2.in",
+                        onComplete: () => successModal.remove()
+                    });
+                }, 3000);
+            }, 2000);
+        });
+
+        // Enhanced form validation with animations
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function() {
+                gsap.to(this, {
+                    scale: 1.02,
+                    duration: 0.2,
+                    ease: "power2.out"
+                });
+            });
+
+            input.addEventListener('blur', function() {
+                gsap.to(this, {
+                    scale: 1,
+                    duration: 0.2,
+                    ease: "power2.out"
+                });
+
+                if (this.value.trim() === '' && this.hasAttribute('required')) {
+                    this.style.borderColor = 'var(--error)';
+                    gsap.to(this, {
+                        x: [0, -10, 10, -5, 5, 0],
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                } else {
+                    this.style.borderColor = 'var(--border)';
+                }
+            });
+
+            input.addEventListener('input', function() {
+                if (this.style.borderColor === 'var(--error)' && this.value.trim() !== '') {
+                    this.style.borderColor = 'var(--success)';
+                    gsap.to(this, {
+                        borderColor: 'var(--success)',
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                }
+            });
+        });
+
+        // Floating label animation enhancement
+        document.querySelectorAll('.form-group.floating .form-control').forEach(input => {
+            const label = input.nextElementSibling;
+
+            input.addEventListener('focus', function() {
+                gsap.to(label, {
+                    y: -2,
+                    scale: 1.05,
+                    duration: 0.2,
+                    ease: "power2.out"
+                });
+            });
+
+            input.addEventListener('blur', function() {
+                gsap.to(label, {
+                    y: 0,
+                    scale: 1,
+                    duration: 0.2,
+                    ease: "power2.out"
+                });
             });
         });
     </script>

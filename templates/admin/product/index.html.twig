@@ -4,28 +4,72 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- DataTables -->
     <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <style>
-        body {
-            background: linear-gradient(135deg, #121212 0%, #1a1a2e 100%);
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
+        :root {
+            --primary: #3b82f6;
+            --secondary: #60a5fa;
+            --error: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg-primary: #0a1a3a;
+            --bg-secondary: #1e3a8a;
+            --surface: rgba(17, 24, 39, 0.95);
+            --card-bg: rgba(31, 41, 55, 0.8);
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border: rgba(59, 130, 246, 0.2);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Page Header */
         .page-header {
-            background: linear-gradient(135deg, rgba(48, 174, 229, 0.9), rgba(37, 200, 173, 0.9));
-            border-radius: 0 0 20px 20px;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            border-radius: 0 0 24px 24px;
+            padding: 2.5rem 0;
+            margin-bottom: 2.5rem;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(37, 200, 173, 0.3);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(-20px);
         }
 
         .page-header::before {
@@ -34,49 +78,198 @@
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
-        .header h1 {
-            color: #fff;
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-title h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
             font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             margin: 0;
-            font-size: 2.2rem;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 2;
         }
 
-        .btn-new-product {
-            background: #3ebfef !important;
-            color: #fff !important;
-            font-weight: 600;
-            border-radius: 50px;
-            padding: 0.75rem 1.5rem;
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-modern {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             border: none;
+            color: #ffffff;
+            padding: 0.75rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(62, 191, 239, 0.3);
+            font-size: 0.9rem;
         }
 
-        .btn-new-product:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(62, 191, 239, 0.5);
-            filter: brightness(1.1);
-            background: #3ebfef !important;
-            color: #fff !important;
+        .btn-modern.btn-secondary {
+            background: #4b5563;
         }
 
-        .table-container {
-            background: rgba(30, 30, 30, 0.8);
-            border-radius: 20px;
+        .btn-modern:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-modern.btn-secondary:hover {
+            background: #6b7280;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+        }
+
+        /* Alert */
+        .alert-modern {
+            background: var(--surface);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--success);
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .alert-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
             padding: 1.5rem;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(37, 200, 173, 0.1);
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .stat-card.total::before { background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+        .stat-card.in-stock::before { background: linear-gradient(90deg, var(--success), #059669); }
+        .stat-card.low-stock::before { background: linear-gradient(90deg, var(--warning), #d97706); }
+        .stat-card.out-of-stock::before { background: linear-gradient(90deg, var(--error), #dc2626); }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-card.total .stat-icon { background: rgba(59, 130, 246, 0.2); color: var(--primary); }
+        .stat-card.in-stock .stat-icon { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .stat-card.low-stock .stat-icon { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .stat-card.out-of-stock .stat-icon { background: rgba(239, 68, 68, 0.2); color: var(--error); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Table Container */
+        .table-container {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
         .table-container::before {
@@ -85,322 +278,1017 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #30aee5, #25c8ad);
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
-        table.dataTable {
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .table-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .table-title h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin: 0;
+        }
+
+        .table-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-badge {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Custom Table Styles */
+        .table-modern {
+            width: 100%;
             border-collapse: separate;
             border-spacing: 0 8px;
-            margin-top: 0 !important;
+            margin-top: 0;
         }
 
-        table.dataTable thead th {
-            background: rgba(37, 200, 173, 0.1);
-            color: #25c8ad;
+        .table-modern thead th {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--primary);
             font-weight: 600;
+            padding: 1rem;
             border: none;
-            padding: 15px 10px;
             font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            border-radius: 12px;
         }
 
-        table.dataTable tbody td {
-            padding: 15px 10px;
-            border-top: none;
-            background: rgba(255, 255, 255, 0.03);
+        .table-modern thead th:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        .table-modern thead th:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .table-modern tbody td {
+            background: var(--card-bg);
+            padding: 1rem;
+            border: none;
             vertical-align: middle;
-            color: #ffffff !important;
+            color: var(--text-primary);
         }
 
-        /* Specific styles for product names and dates */
-        table.dataTable tbody td:nth-child(2), table.dataTable tbody td:nth-child(7) {
-            color: #ffffff !important;
-            background-color: #333333 !important;
-            border-radius: 6px;
-            padding: 10px;
+        .table-modern tbody tr:hover td {
+            background: rgba(59, 130, 246, 0.2);
         }
 
-        table.dataTable tbody tr:first-child td:first-child {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
+        .table-modern tbody td:first-child {
+            border-radius: 12px 0 0 12px;
         }
 
-        table.dataTable tbody tr:first-child td:last-child {
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
+        .table-modern tbody td:last-child {
+            border-radius: 0 12px 12px 0;
         }
 
-        tbody tr:hover td {
-            background-color: rgba(37, 200, 173, 0.1);
+        /* Product specific styles */
+        .product-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
         }
 
-        .badge {
-            font-weight: 500;
-            margin: 0.2rem;
-            padding: 0.5em 0.8em;
-            border-radius: 30px;
-            font-size: 0.75rem;
+        .product-image:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
         }
 
-        .badge.bg-primary {
-            background: linear-gradient(135deg, #30aee5, #25c8ad) !important;
-            box-shadow: 0 2px 10px rgba(37, 200, 173, 0.3);
-        }
-
-        .badge.bg-secondary {
-            background: rgba(255, 255, 255, 0.1) !important;
-            color: rgba(255, 255, 255, 0.8) !important;
-        }
-
-        .badge.bg-success {
-            background: linear-gradient(135deg, rgba(40, 167, 69, 0.8), rgba(32, 201, 151, 0.8)) !important;
-            box-shadow: 0 2px 10px rgba(32, 201, 151, 0.3);
-        }
-
-        .badge.bg-danger {
-            background: linear-gradient(135deg, rgba(220, 53, 69, 0.8), rgba(255, 107, 107, 0.8)) !important;
-            box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
-        }
-
-        .product-actions .btn {
-            margin-right: 5px;
-            transition: all 0.3s;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: inline-flex;
+        .product-image-placeholder {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.2);
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0;
+            color: var(--primary);
+            border: 2px solid var(--border);
         }
 
-        .product-actions .btn-primary {
-            background: rgba(48, 174, 229, 0.2);
-            border-color: rgba(48, 174, 229, 0.4);
-            color: #30aee5;
+        .product-name {
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .product-actions .btn-danger {
-            background: rgba(220, 53, 69, 0.2);
-            border-color: rgba(220, 53, 69, 0.4);
-            color: #dc3545;
+        .product-price {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--success);
         }
 
-        .product-actions .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(37, 200, 173, 0.3);
+        .stock-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
-        .product-actions .btn-primary:hover {
-            background: #30aee5;
-            color: #fff;
+        .stock-badge.in-stock {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
         }
 
-        .product-actions .btn-danger:hover {
-            background: #dc3545;
-            color: #fff;
+        .stock-badge.low-stock {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
         }
 
-        .product-image {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
+        .stock-badge.out-of-stock {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        .category-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .category-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .subcategory-badge {
+            background: rgba(100, 116, 139, 0.3);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .more-badge {
+            background: rgba(100, 116, 139, 0.2);
+            color: var(--text-muted);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .date-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
             border-radius: 8px;
-            border: 2px solid rgba(37, 200, 173, 0.2);
-        }
-
-        .alert-success {
-            background: linear-gradient(135deg, rgba(40, 167, 69, 0.9), rgba(32, 201, 151, 0.9));
             border: none;
-            color: white;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(32, 201, 151, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .alert .btn-close {
-            filter: invert(1);
+        .action-btn.edit {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--primary);
+        }
+
+        .action-btn.delete {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-btn.edit:hover {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .action-btn.delete:hover {
+            background: var(--error);
+            color: #ffffff;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            border-radius: 16px;
+            background: rgba(59, 130, 246, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* DataTables Custom Styles */
+        .dataTables_wrapper {
+            color: var(--text-primary);
         }
 
         .dataTables_wrapper .dataTables_length,
         .dataTables_wrapper .dataTables_filter,
         .dataTables_wrapper .dataTables_info,
-        .dataTables_wrapper .dataTables_processing,
         .dataTables_wrapper .dataTables_paginate {
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-secondary);
             margin-bottom: 1rem;
         }
 
+        .dataTables_wrapper .dataTables_filter input {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            padding: 0.25rem 0.5rem;
+        }
+
         .dataTables_wrapper .dataTables_paginate .paginate_button {
-            color: rgba(255, 255, 255, 0.7) !important;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary) !important;
+            margin: 0 2px;
+            padding: 0.5rem 1rem;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button.current,
         .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-            background: linear-gradient(135deg, #30aee5, #25c8ad) !important;
-            color: white !important;
-            border: none;
-            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+            border-color: transparent !important;
+            color: #ffffff !important;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: rgba(37, 200, 173, 0.2) !important;
-            color: white !important;
-            border: 1px solid rgba(37, 200, 173, 0.4);
+            background: rgba(59, 130, 246, 0.2) !important;
+            border-color: var(--primary) !important;
+            color: var(--primary) !important;
         }
 
-        .text-muted {
-            color: rgba(255, 255, 255, 0.6) !important;
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
         }
 
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 400px;
+            text-align: center;
+            transform: scale(0.8);
+        }
+
+        /* Icon styles */
+        .icon {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .icon-sm {
+            width: 16px;
+            height: 16px;
+        }
+
+        .icon-lg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            thead th, tbody td { font-size: 0.85rem; }
-            .page-header { padding: 1.5rem 0; }
-            .header h1 { font-size: 1.8rem; }
-            .btn-new-product { padding: 0.5rem 1rem; font-size: 0.9rem; }
+            .main-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .header-container {
+                padding: 0 1rem;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-title h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .table-container {
+                padding: 1rem;
+                overflow-x: auto;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            opacity: 0;
+            transform: translateY(30px);
         }
     </style>
 {% endblock %}
 
 {% block body %}
-<div class="container-fluid mt-4 animate__animated animate__fadeInUp">
-    <div class="d-flex justify-content-between align-items-center mb-4 header">
-        <h1>Gestion des produits</h1>
-        <a href="{{ path('admin_products_new') }}" class="btn btn-new-product">
-            <i class="fas fa-plus"></i> Nouveau produit
-        </a>
-    </div>
-
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="page-header loading">
+        <div class="header-container">
+            <div class="header-title">
+                <div class="header-icon">
+                    <svg class="icon icon-lg" viewBox="0 0 24 24" fill="white">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                    </svg>
+                </div>
+                <h1>Gestion des produits</h1>
+            </div>
+            <div class="header-actions">
+                <a href="{{ path('admin_products_new') }}" class="btn-modern btn-primary">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="16"/>
+                        <line x1="8" y1="12" x2="16" y2="12"/>
+                    </svg>
+                    Nouveau produit
+                </a>
+                <a href="{{ path('admin_dashboard') }}" class="btn-modern btn-secondary">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24">
+                        <path d="M19 12H5"/>
+                        <path d="M12 19l-7-7 7-7"/>
+                    </svg>
+                    Retour au dashboard
+                </a>
+            </div>
         </div>
-    {% endfor %}
-
-    <div class="table-responsive">
-        <table id="productsTable" class="table table-hover table-borderless align-middle">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Nom</th>
-                    <th>Prix</th>
-                    <th>Stock</th>
-                    <th>Catégories</th>
-                    <th>Sous-catégories</th>
-                    <th>Date de création</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for product in products %}
-                    <tr>
-                        <td>
-                            {% if product.urlImage %}
-                                <img src="{{ product.urlImage }}" alt="{{ product.name }}" class="product-image">
-                            {% else %}
-                                <div class="bg-secondary rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-image text-muted"></i>
-                                </div>
-                            {% endif %}
-                        </td>
-                        <td>{{ product.name }}</td>
-                        <td>{{ product.price }} €</td>
-                        <td>
-                            <span class="badge {{ product.stock > 0 ? 'bg-success' : 'bg-danger' }}">
-                                {{ product.stock }} en stock
-                            </span>
-                        </td>
-                        <td>
-                            {% if product.categories|length > 0 %}
-                                {% for category in product.categories|slice(0, 2) %}
-                                    <span class="badge bg-primary">{{ category.name }}</span>
-                                {% endfor %}
-                                {% if product.categories|length > 2 %}
-                                    <span class="badge bg-secondary">+{{ product.categories|length - 2 }} autres</span>
-                                {% endif %}
-                            {% else %}
-                                <span class="text-muted">Aucune</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if product.subCategories|length > 0 %}
-                                {% for subCategory in product.subCategories|slice(0, 2) %}
-                                    <span class="badge bg-secondary">{{ subCategory.name }}</span>
-                                {% endfor %}
-                                {% if product.subCategories|length > 2 %}
-                                    <span class="badge bg-secondary">+{{ product.subCategories|length - 2 }} autres</span>
-                                {% endif %}
-                            {% else %}
-                                <span class="text-muted">Aucune</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ product.createdAt|date('d/m/Y H:i') }}</td>
-                        <td class="product-actions">
-                            <a href="{{ path('admin_products_edit', {'id': product.id}) }}" 
-                               class="btn btn-sm btn-primary" 
-                               title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <form method="post" 
-                                  action="{{ path('admin_products_delete', {'id': product.id}) }}" 
-                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');"
-                                  style="display: inline-block;">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-                                <button class="btn btn-sm btn-danger" title="Supprimer">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="8" class="text-center text-muted">Aucun produit trouvé</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
-</div>
+
+    <div class="main-container">
+        {% for message in app.flashes('success') %}
+            <div class="alert-modern loading">
+                <div class="alert-icon">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24" fill="white">
+                        <polyline points="20,6 9,17 4,12"/>
+                    </svg>
+                </div>
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <!-- Statistics Cards -->
+        <div class="stats-container loading">
+            {% set totalProducts = products|length %}
+            {% set inStockProducts = 0 %}
+            {% set lowStockProducts = 0 %}
+            {% set outOfStockProducts = 0 %}
+
+            {% for product in products %}
+                {% if product.stock > 10 %}
+                    {% set inStockProducts = inStockProducts + 1 %}
+                {% elseif product.stock > 0 %}
+                    {% set lowStockProducts = lowStockProducts + 1 %}
+                {% else %}
+                    {% set outOfStockProducts = outOfStockProducts + 1 %}
+                {% endif %}
+            {% endfor %}
+
+            <div class="stat-card total">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-value">{{ totalProducts }}</div>
+                <div class="stat-label">Total produits</div>
+            </div>
+
+            <div class="stat-card in-stock">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <polyline points="20,6 9,17 4,12"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-value">{{ inStockProducts }}</div>
+                <div class="stat-label">En stock</div>
+            </div>
+
+            <div class="stat-card low-stock">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-value">{{ lowStockProducts }}</div>
+                <div class="stat-label">Stock faible</div>
+            </div>
+
+            <div class="stat-card out-of-stock">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-value">{{ outOfStockProducts }}</div>
+                <div class="stat-label">Rupture de stock</div>
+            </div>
+        </div>
+
+        <div class="table-container loading">
+            <div class="table-header">
+                <div class="table-title">
+                    <svg class="icon" viewBox="0 0 24 24" style="color: var(--primary);">
+                        <path d="M3 6h18"/>
+                        <path d="M3 12h18"/>
+                        <path d="M3 18h18"/>
+                    </svg>
+                    <h2>Liste des produits</h2>
+                </div>
+                <div class="table-stats">
+                    <div class="stat-badge">
+                        <svg class="icon icon-sm" viewBox="0 0 24 24">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
+                        {{ products|length }} produit(s)
+                    </div>
+                </div>
+            </div>
+
+            {% if products|length > 0 %}
+                <table id="productsTable" class="table-modern">
+                    <thead>
+                    <tr>
+                        <th>
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21,15 16,10 5,21"/>
+                            </svg>
+                            Image
+                        </th>
+                        <th>
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            </svg>
+                            Nom
+                        </th>
+                        <th>
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                            Prix
+                        </th>
+                        <th>
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            </svg>
+                            Stock
+                        </th>
+                        <th>
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            Catégories
+                        </th>
+                        <th>
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                                <path d="M2 13h20"/>
+                            </svg>
+                            Sous-catégories
+                        </th>
+                        <th>
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            Date de création
+                        </th>
+                        <th>
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                            Actions
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <td>
+                                {% if product.urlImage %}
+                                    <img src="{{ product.urlImage }}" alt="{{ product.name }}" class="product-image">
+                                {% else %}
+                                    <div class="product-image-placeholder">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                                            <polyline points="21,15 16,10 5,21"/>
+                                        </svg>
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="product-name">{{ product.name }}</span>
+                            </td>
+                            <td>
+                                <span class="product-price">{{ product.price }} €</span>
+                            </td>
+                            <td>
+                                {% if product.stock > 10 %}
+                                    <span class="stock-badge in-stock">
+                                        <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                            <polyline points="20,6 9,17 4,12"/>
+                                        </svg>
+                                        {{ product.stock }} en stock
+                                    </span>
+                                {% elseif product.stock > 0 %}
+                                    <span class="stock-badge low-stock">
+                                        <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                                            <line x1="12" y1="9" x2="12" y2="13"/>
+                                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                                        </svg>
+                                        {{ product.stock }} en stock
+                                    </span>
+                                {% else %}
+                                    <span class="stock-badge out-of-stock">
+                                        <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <line x1="15" y1="9" x2="9" y2="15"/>
+                                            <line x1="9" y1="9" x2="15" y2="15"/>
+                                        </svg>
+                                        Rupture de stock
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if product.categories|length > 0 %}
+                                    <div class="category-badges">
+                                        {% for category in product.categories|slice(0, 2) %}
+                                            <span class="category-badge">{{ category.name }}</span>
+                                        {% endfor %}
+                                        {% if product.categories|length > 2 %}
+                                            <span class="more-badge">+{{ product.categories|length - 2 }} autres</span>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <span style="color: var(--text-muted); font-style: italic;">Aucune</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if product.subCategories|length > 0 %}
+                                    <div class="category-badges">
+                                        {% for subCategory in product.subCategories|slice(0, 2) %}
+                                            <span class="subcategory-badge">{{ subCategory.name }}</span>
+                                        {% endfor %}
+                                        {% if product.subCategories|length > 2 %}
+                                            <span class="more-badge">+{{ product.subCategories|length - 2 }} autres</span>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <span style="color: var(--text-muted); font-style: italic;">Aucune</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="date-info">
+                                    <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                        <line x1="16" y1="2" x2="16" y2="6"/>
+                                        <line x1="8" y1="2" x2="8" y2="6"/>
+                                        <line x1="3" y1="10" x2="21" y2="10"/>
+                                    </svg>
+                                    {{ product.createdAt|date('d/m/Y H:i') }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="actions">
+                                    <a href="{{ path('admin_products_edit', {'id': product.id}) }}" class="action-btn edit" title="Modifier">
+                                        <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                        </svg>
+                                    </a>
+                                    <form method="post" action="{{ path('admin_products_delete', {'id': product.id}) }}"
+                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');"
+                                          style="display: inline-block;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                                        <button type="submit" class="action-btn delete" title="Supprimer">
+                                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                                <polyline points="3,6 5,6 21,6"/>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                                <line x1="10" y1="11" x2="10" y2="17"/>
+                                                <line x1="14" y1="11" x2="14" y2="17"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">
+                                <div class="empty-state">
+                                    <div class="empty-icon">
+                                        <svg class="icon" viewBox="0 0 24 24" style="color: var(--primary); width: 32px; height: 32px;">
+                                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="empty-title">Aucun produit trouvé</h3>
+                                    <p class="empty-description">Commencez par créer votre premier produit</p>
+                                    <a href="{{ path('admin_products_new') }}" class="btn-modern btn-primary">
+                                        <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <line x1="12" y1="8" x2="12" y2="16"/>
+                                            <line x1="8" y1="12" x2="16" y2="12"/>
+                                        </svg>
+                                        Créer un produit
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <svg class="icon" viewBox="0 0 24 24" style="color: var(--primary); width: 32px; height: 32px;">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
+                    </div>
+                    <h3 class="empty-title">Aucun produit trouvé</h3>
+                    <p class="empty-description">Commencez par créer votre premier produit</p>
+                    <a href="{{ path('admin_products_new') }}" class="btn-modern btn-primary">
+                        <svg class="icon icon-sm" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="16"/>
+                            <line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                        Créer un produit
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        $(document).ready(function() {
-            $('.select2-multiple').select2({
-                theme: 'bootstrap4',
-                width: '100%',
-                placeholder: 'Sélectionnez des options',
-                allowClear: true
+        // GSAP Animations
+        window.addEventListener('load', function() {
+            // Page header animation
+            gsap.to('.page-header', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out"
             });
 
+            // Alert animation
+            gsap.to('.alert-modern', {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                ease: "power3.out",
+                delay: 0.2
+            });
+
+            // Stats cards animation
+            gsap.to('.stats-container', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                delay: 0.3
+            });
+
+            // Stat cards stagger animation
+            gsap.to('.stat-card', {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: "power3.out",
+                delay: 0.4
+            });
+
+            // Table container animation
+            gsap.to('.table-container', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                delay: 0.5
+            });
+
+            // Table rows animation
+            gsap.to('.table-modern tbody tr', {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.05,
+                ease: "power3.out",
+                delay: 0.7
+            });
+        });
+
+        // DataTable initialization
+        $(document).ready(function() {
+            {% if products|length > 0 %}
             $('#productsTable').DataTable({
                 pageLength: 10,
                 lengthMenu: [5, 10, 25, 50],
                 responsive: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/fr-FR.json'
-                },
                 columnDefs: [
                     { orderable: false, targets: [0, 4, 5, 7] },
                     { className: 'text-center', targets: [0, 2, 3, 7] }
                 ],
-                order: [[6, 'desc']] // Trier par date de création par défaut
+                order: [[6, 'desc']], // Sort by creation date by default
+                language: {
+                    "lengthMenu": "Afficher _MENU_ entrées",
+                    "zeroRecords": "Aucun résultat trouvé",
+                    "info": "Affichage de _START_ à _END_ sur _TOTAL_ entrées",
+                    "infoEmpty": "Affichage de 0 à 0 sur 0 entrées",
+                    "infoFiltered": "(filtré à partir de _MAX_ entrées au total)",
+                    "search": "Rechercher:",
+                    "paginate": {
+                        "first": "Premier",
+                        "last": "Dernier",
+                        "next": "Suivant",
+                        "previous": "Précédent"
+                    }
+                }
             });
+            {% endif %}
 
-            // Auto-hide alerts after 5 seconds
+            // Auto-hide alerts after 5 seconds with smooth animation
             setTimeout(function() {
-                $('.alert').fadeOut('slow', function() {
-                    $(this).remove();
+                gsap.to('.alert-modern', {
+                    opacity: 0,
+                    y: -20,
+                    duration: 0.5,
+                    ease: "power2.inOut",
+                    onComplete: function() {
+                        document.querySelectorAll('.alert-modern').forEach(alert => alert.remove());
+                    }
                 });
             }, 5000);
+        });
+
+        // Enhanced interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Stat cards hover effects
+            document.querySelectorAll('.stat-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    gsap.to(this, {
+                        scale: 1.02,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    gsap.to(this, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+
+            // Product image hover effects
+            document.querySelectorAll('.product-image').forEach(img => {
+                img.addEventListener('mouseenter', function() {
+                    gsap.to(this, {
+                        scale: 1.1,
+                        rotation: 2,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+
+                img.addEventListener('mouseleave', function() {
+                    gsap.to(this, {
+                        scale: 1,
+                        rotation: 0,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+
+            // Action buttons animations
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    gsap.to(this, {
+                        scale: 1.1,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
+                });
+
+                btn.addEventListener('mouseleave', function() {
+                    gsap.to(this, {
+                        scale: 1,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
+                });
+            });
+
+            // Enhanced delete confirmation
+            document.querySelectorAll('form[action*="delete"]').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // Create animated confirmation modal
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-overlay';
+                    modal.innerHTML = `
+                        <div class="modal-content">
+                            <div style="
+                                width: 64px;
+                                height: 64px;
+                                border-radius: 50%;
+                                background: var(--error);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                margin: 0 auto 1rem;
+                            ">
+                                <svg class="icon icon-lg" viewBox="0 0 24 24" fill="white">
+                                    <polyline points="3,6 5,6 21,6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                    <line x1="10" y1="11" x2="10" y2="17"/>
+                                    <line x1="14" y1="11" x2="14" y2="17"/>
+                                </svg>
+                            </div>
+                            <h3 style="color: var(--text-primary); font-family: 'Poppins', sans-serif; margin-bottom: 0.5rem;">Confirmer la suppression</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                                Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible.
+                            </p>
+                            <div style="display: flex; gap: 1rem; justify-content: center;">
+                                <button class="btn-modern btn-cancel" onclick="this.closest('.modal-overlay').remove()">Annuler</button>
+                                <button class="btn-modern btn-delete" style="background: var(--error); color: white; border-color: var(--error);">Supprimer</button>
+                            </div>
+                        </div>
+                    `;
+
+                    document.body.appendChild(modal);
+
+                    // Store reference to the form
+                    modal.querySelector('.btn-delete').onclick = function() {
+                        form.submit();
+                    };
+
+                    gsap.to(modal, {
+                        opacity: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+
+                    gsap.to(modal.querySelector('.modal-content'), {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: "back.out(1.7)",
+                        delay: 0.1
+                    });
+                });
+            });
+
+            // Animate number counters in stat cards
+            function animateCounters() {
+                document.querySelectorAll('.stat-value').forEach(counter => {
+                    const finalValue = parseInt(counter.textContent);
+                    const obj = { value: 0 };
+
+                    gsap.to(obj, {
+                        value: finalValue,
+                        duration: 1.5,
+                        ease: "power2.out",
+                        delay: 0.8,
+                        onUpdate: function() {
+                            counter.textContent = Math.floor(obj.value);
+                        },
+                        onComplete: function() {
+                            counter.textContent = finalValue;
+                        }
+                    });
+                });
+            }
+
+            // Start counter animation after a delay
+            setTimeout(animateCounters, 500);
         });
     </script>
 {% endblock %}
