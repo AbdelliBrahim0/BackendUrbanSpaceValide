@@ -1,0 +1,7 @@
+# config/routes/sale.yaml
+app_admin_sale:
+  resource: ../../src/Controller/Admin/SaleController.php
+  type: annotation
+  prefix: /admin
+  # Protéger toutes les routes avec le rôle ROLE_ADMIN
+  # defaults: { _can_view: 'ROLE_ADMIN' }

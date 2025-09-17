@@ -1,0 +1,259 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Remises{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #60a5fa;
+            --error: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg-primary: #0a1a3a;
+            --bg-secondary: #1e3a8a;
+            --surface: rgba(17, 24, 39, 0.95);
+            --card-bg: rgba(31, 41, 55, 0.8);
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border: rgba(59, 130, 246, 0.2);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            background: none;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .page-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .nav-tabs {
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border: none;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .tab-content {
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .btn-modern {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-modern:hover {
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 1rem; }
+            .nav-link { padding: 0.25rem 0.75rem; font-size: 0.875rem; }
+            .btn-modern { padding: 0.25rem 1rem; font-size: 0.75rem; }
+        }
+
+        .loading {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .icon {
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="page-header loading">
+            <h1>Gestion des Remises</h1>
+            <a href="{{ path('app_admin_sale_new') }}" class="btn-modern">
+                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+                Nouvelle Remise
+            </a>
+        </div>
+
+        <!-- Onglets pour les différentes catégories de remises -->
+        <div class="card loading">
+            <ul class="nav nav-tabs mb-4" id="salesTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">
+                        Actives ({{ activeSales|length }})
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab">
+                        À venir ({{ upcomingSales|length }})
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="expired-tab" data-bs-toggle="tab" data-bs-target="#expired" type="button" role="tab">
+                        Expirées ({{ expiredSales|length }})
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="salesTabsContent">
+                <!-- Onglet Remises Actives -->
+                <div class="tab-pane fade show active" id="active" role="tabpanel">
+                    {% include 'admin/sale/_sales_table.html.twig' with {'sales': activeSales} %}
+                </div>
+
+                <!-- Onglet Remises à Venir -->
+                <div class="tab-pane fade" id="upcoming" role="tabpanel">
+                    {% include 'admin/sale/_sales_table.html.twig' with {'sales': upcomingSales} %}
+                </div>
+
+                <!-- Onglet Remises Expirées -->
+                <div class="tab-pane fade" id="expired" role="tabpanel">
+                    {% include 'admin/sale/_sales_table.html.twig' with {'sales': expiredSales} %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            // GSAP Animations
+            gsap.to('.page-header', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            });
+
+            gsap.to('.card', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                delay: 0.3,
+                stagger: 0.1
+            });
+
+            gsap.to('.loading', {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: "power3.out",
+                delay: 0.4
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

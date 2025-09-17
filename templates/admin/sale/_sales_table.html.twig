@@ -1,0 +1,198 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Remise</th>
+            <th>Prix initial</th>
+            <th>Prix remisé</th>
+            <th>Période</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sale in sales %}
+            <tr class="loading">
+                <td>{{ sale.product.name }}</td>
+                <td>{{ sale.discountPercentage }}%</td>
+                <td>{{ sale.product.price|number_format(2, ',', ' ') }} €</td>
+                <td>{{ sale.getDiscountedPrice()|number_format(2, ',', ' ') }} €</td>
+                <td>
+                    <small>
+                        Du {{ sale.startDate|date('d/m/Y H:i') }}<br>
+                        Au {{ sale.endDate|date('d/m/Y H:i') }}
+                    </small>
+                </td>
+                <td>
+                    {% if sale.isActive() %}
+                        <span class="badge badge-success">Active</span>
+                    {% else %}
+                        <span class="badge badge-inactive">Inactive</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <a href="{{ path('app_admin_sale_edit', {'id': sale.id}) }}" class="btn-modern btn-sm">
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <path d="M17.5 4.5l-9 9-3 3h2l9-9 3-3-2-2-3 3zm-9 9l-1 1 3 3 1-1-3-3z"/>
+                            </svg>
+                        </a>
+                        <form method="post" action="{{ path('app_admin_sale_toggle', {'id': sale.id}) }}" class="d-inline">
+                            <button type="submit" class="btn-modern btn-sm btn-{{ sale.isActive ? 'warning' : 'success' }}">
+                                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                    <path d="{{ sale.isActive ? 'M12 8v8m-4-4h8' : 'M5 12l7-7 7 7' }}"/>
+                                </svg>
+                            </button>
+                        </form>
+                        <form method="post" action="{{ path('app_admin_sale_delete', {'id': sale.id}) }}"
+                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette remise ?');"
+                              class="d-inline">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sale.id) }}">
+                            <button class="btn btn-danger btn-sm">
+                                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                    <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr class="loading">
+                <td colspan="7" class="text-center">Aucune remise trouvée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .table {
+        background: var(--card-bg);
+        border: none;
+    }
+
+    .table thead th {
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+        font-weight: 600;
+        border: none;
+        padding: 12px 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+    }
+
+    .table tbody td {
+        padding: 12px 15px;
+        border-top: 1px solid var(--border);
+        vertical-align: middle;
+        color: var(--text-primary);
+    }
+
+    .table tbody tr:hover td {
+        background: rgba(59, 130, 246, 0.1);
+    }
+
+    .badge-success {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(34, 197, 94, 0.9));
+        color: #fff;
+        border-radius: 20px;
+        padding: 0.25rem 0.75rem;
+        font-weight: 500;
+    }
+
+    .badge-inactive {
+        background: var(--card-bg);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 0.25rem 0.75rem;
+        font-weight: 500;
+    }
+
+    .btn-modern {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.75rem;
+    }
+
+    .btn-modern:hover {
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-modern.btn-warning {
+        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    }
+
+    .btn-modern.btn-warning:hover {
+        background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    }
+
+    .btn-modern.btn-success {
+        background: linear-gradient(90deg, #10b981, #34d399);
+    }
+
+    .btn-modern.btn-success:hover {
+        background: linear-gradient(90deg, #34d399, #10b981);
+    }
+
+    .btn-danger {
+        background: rgba(239, 68, 68, 0.2);
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        color: var(--error);
+        border-radius: 6px;
+        padding: 0.25rem 0.75rem;
+        transition: all 0.3s;
+    }
+
+    .btn-danger:hover {
+        background: var(--error);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-group .btn-sm + .btn-sm {
+        margin-left: 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+        .table thead th, .table tbody td { font-size: 0.85rem; padding: 8px 10px; }
+        .btn-modern, .btn-danger { padding: 0.2rem 0.5rem; font-size: 0.7rem; }
+    }
+
+    .loading {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .icon {
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+    }
+</style>
+
+<script>
+    // GSAP Animations for table rows
+    gsap.to('.loading', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power3.out",
+        delay: 0.2
+    });
+</script>
