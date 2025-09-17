@@ -53,6 +53,9 @@
             "ref": "20154480d558409ad3eb9de3644817c81fad2268"
         }
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v6.9.1"
+    },
     "lexik/jwt-authentication-bundle": {
         "version": "3.1",
         "recipe": {

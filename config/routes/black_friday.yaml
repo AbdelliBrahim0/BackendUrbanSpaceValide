@@ -1,0 +1,7 @@
+app_admin_black_friday:
+    resource: ../../src/Controller/Admin/BlackFridayController.php
+    type:     annotation
+    prefix:   /admin
+    # Protéger toutes les routes avec le rôle ROLE_ADMIN
+    # (assurez-vous que votre système d'authentification est configuré pour gérer ces rôles)
+    # defaults: { _can_view: 'ROLE_ADMIN' }
