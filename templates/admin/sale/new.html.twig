@@ -252,7 +252,7 @@
                                 <select class="form-select" id="product" name="product" required>
                                     <option value="">Sélectionnez un produit</option>
                                     {% for product in products %}
-                                        <option value="{{ product.id }}">{{ product.name }} - {{ product.price|number_format(2, ',', ' ') }} €</option>
+                                        <option value="{{ product.id }}">{{ product.name }} - {{ product.price|number_format(2, ',', ' ') }} tnd</option>
                                     {% endfor %}
                                 </select>
                                 <div class="invalid-feedback">

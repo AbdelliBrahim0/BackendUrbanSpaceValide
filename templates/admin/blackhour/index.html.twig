@@ -292,8 +292,8 @@
                             {% for promo in pagination.items %}
                                 <tr>
                                     <td>{{ promo.product.name }}</td>
-                                    <td>{{ promo.product.price|number_format(2, ',', ' ') }} €</td>
-                                    <td class="text-danger font-weight-bold">{{ promo.discountedPrice|number_format(2, ',', ' ') }} €</td>
+                                    <td>{{ promo.product.price|number_format(2, ',', ' ') }} TND</td>
+                                    <td class="text-danger font-weight-bold">{{ promo.discountedPrice|number_format(2, ',', ' ') }} TND</td>
                                     <td>
                                         {% set reduction = ((promo.product.price - promo.discountedPrice) / promo.product.price * 100)|round(0, 'ceil') %}
                                         <span class="badge badge-success">-{{ reduction }}%</span>

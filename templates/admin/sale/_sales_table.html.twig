@@ -16,8 +16,8 @@
             <tr class="loading">
                 <td>{{ sale.product.name }}</td>
                 <td>{{ sale.discountPercentage }}%</td>
-                <td>{{ sale.product.price|number_format(2, ',', ' ') }} €</td>
-                <td>{{ sale.getDiscountedPrice()|number_format(2, ',', ' ') }} €</td>
+                <td>{{ sale.product.price|number_format(2, ',', ' ') }} TND</td>
+                <td>{{ sale.getDiscountedPrice()|number_format(2, ',', ' ') }} TND</td>
                 <td>
                     <small>
                         Du {{ sale.startDate|date('d/m/Y H:i') }}<br>
