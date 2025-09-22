@@ -1,0 +1,6 @@
+# Routes pour la gestion des commandes
+order_api:
+    resource: ../../src/Controller/OrderController.php
+    type: attribute
+    prefix: /api
+    name_prefix: api_

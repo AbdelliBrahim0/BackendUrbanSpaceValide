@@ -55,4 +55,21 @@ class BlackFridayRepository extends ServiceEntityRepository
             ->getSingleScalarResult()
         ;
     }
+
+    /**
+     * Récupère tous les produits en promotion Black Friday avec leurs détails
+     *
+     * @return BlackFriday[]
+     */
+    public function findAllWithProductDetails(): array
+    {
+        return $this->createQueryBuilder('bf')
+            ->select('bf', 'p', 'c', 'sc')
+            ->leftJoin('bf.produit', 'p')
+            ->leftJoin('p.categories', 'c')
+            ->leftJoin('p.subCategories', 'sc')
+            ->orderBy('bf.dateCreation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

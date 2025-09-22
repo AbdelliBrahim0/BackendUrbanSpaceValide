@@ -1,0 +1,5 @@
+admin_orders:
+    resource: ../../src/Controller/Admin/OrderController.php
+    type: attribute
+    prefix: /admin
+    name_prefix: admin_

@@ -54,4 +54,28 @@ class SaleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Récupère tous les produits en solde avec leurs détails
+     *
+     * @return Sale[]
+     */
+    public function findAllWithProductDetails(): array
+    {
+        $now = new \DateTime();
+        
+        return $this->createQueryBuilder('s')
+            ->select('s', 'p', 'c', 'sc')
+            ->leftJoin('s.product', 'p')
+            ->leftJoin('p.categories', 'c')
+            ->leftJoin('p.subCategories', 'sc')
+            ->where('s.isActive = :isActive')
+            ->andWhere('s.startDate <= :now')
+            ->andWhere('s.endDate >= :now')
+            ->setParameter('isActive', true)
+            ->setParameter('now', $now)
+            ->orderBy('s.discountPercentage', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

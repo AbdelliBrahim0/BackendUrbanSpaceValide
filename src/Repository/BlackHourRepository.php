@@ -54,4 +54,26 @@ class BlackHourRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Récupère tous les produits en promotion Black Hour avec leurs détails
+     *
+     * @return BlackHour[]
+     */
+    public function findAllWithProductDetails(): array
+    {
+        $now = new \DateTime();
+        
+        return $this->createQueryBuilder('bh')
+            ->select('bh', 'p', 'c', 'sc')
+            ->leftJoin('bh.product', 'p')
+            ->leftJoin('p.categories', 'c')
+            ->leftJoin('p.subCategories', 'sc')
+            ->where('bh.startTime <= :now')
+            ->andWhere('bh.endTime >= :now')
+            ->setParameter('now', $now)
+            ->orderBy('bh.startTime', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

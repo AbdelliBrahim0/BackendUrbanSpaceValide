@@ -1,66 +1,83 @@
 security:
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+  role_hierarchy:
+    # Tous les utilisateurs authentifiés auront automatiquement ROLE_USER
+    IS_AUTHENTICATED_FULLY: ROLE_USER
+    
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
-    providers:
-        # Provider pour les admins
-        app_admin_provider:
-            entity:
-                class: App\Entity\Admin
-                property: username
+  providers:
+    # Provider pour les admins
+    app_admin_provider:
+      entity:
+        class: App\Entity\Admin
+        property: username
+        
+    # Provider pour les utilisateurs normaux
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
 
-        # Fournisseur pour l'API (utilise uniquement app_admin_provider pour l'instant)
-        app_chain_provider:
-            chain:
-                providers: ['app_admin_provider']
+    # Chaîne de fournisseurs pour l'authentification
+    app_chain_provider:
+      chain:
+        providers: ['app_user_provider', 'app_admin_provider']
 
-    firewalls:
-        # Firewall pour l'API (stateless, JWT)
-        api:
-            pattern: ^/api/
-            stateless: true
-            provider: app_chain_provider
-            json_login:
-                check_path: /api/admin/login
-                username_path: username
-                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-        # Firewall pour les admins via formulaire Twig (session stateful)
-        admin:
-            pattern: ^/admin
-            provider: app_admin_provider
-            form_login:
-                login_path: admin_login        # Route vers le formulaire
-                check_path: admin_login        # Même route pour le formulaire et la vérification
-                default_target_path: admin_dashboard  # Redirection après succès
-                username_parameter: _username
-                password_parameter: _password
-                enable_csrf: true
-            logout:
-                path: admin_logout
-                target: /admin/login
-                invalidate_session: true
+  firewalls:
+    # Firewall pour l'API (stateless, JWT)
+    api:
+      pattern: ^/api/
+      stateless: true
+      provider: app_chain_provider
+      json_login:
+        check_path: /api/login
+        username_path: email  # Changé de 'username' à 'email' pour correspondre à votre entité User
+        password_path: password
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+      jwt: ~  # Active l'authentification JWT
+    # Firewall pour les admins via formulaire Twig (session stateful)
+    admin:
+      pattern: ^/admin
+      provider: app_admin_provider
+      form_login:
+        login_path: admin_login        # Route vers le formulaire
+        check_path: admin_login        # Même route pour le formulaire et la vérification
+        default_target_path: admin_dashboard  # Redirection après succès
+        username_parameter: _username
+        password_parameter: _password
+        enable_csrf: true
+      logout:
+        path: admin_logout
+        target: /admin/login
+        invalidate_session: true
 
 
-        # Firewall dev (profilers, assets)
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+    # Firewall dev (profilers, assets)
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
 
-    access_control:
-        # Accès public pour le login admin Twig
-        - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
-        - { path: ^/admin/logout$, roles: PUBLIC_ACCESS }
-        # Accès admin pour tout /admin
-        - { path: ^/admin, roles: ROLE_ADMIN }
+  access_control:
+    # Accès public pour le login admin Twig
+    - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
+    - { path: ^/admin/logout$, roles: PUBLIC_ACCESS }
+    # Accès admin pour tout /admin
+    - { path: ^/admin, roles: ROLE_ADMIN }
 
-        # Accès public pour l'API login
-        - { path: ^/api/admin/login$, roles: PUBLIC_ACCESS }
-        # Accès admin pour l'API
-        - { path: ^/api/admin, roles: ROLE_ADMIN }
+    # Accès public pour l'API login
+    - { path: ^/api/admin/login$, roles: PUBLIC_ACCESS }
+    # Accès admin pour l'API
+    - { path: ^/api/admin, roles: ROLE_ADMIN }
 
-        # Exemple accès public /api/user et /api/signup
-        - { path: ^/api/login$, roles: PUBLIC_ACCESS }
-        - { path: ^/api/signup$, roles: PUBLIC_ACCESS }
-        - { path: ^/api/oauth/, roles: PUBLIC_ACCESS }
+    # Accès public pour l'authentification
+    - { path: ^/api/login$, roles: PUBLIC_ACCESS }
+    - { path: ^/api/signup$, roles: PUBLIC_ACCESS }
+    - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }
+    - { path: ^/api/oauth/, roles: PUBLIC_ACCESS }
+    
+    # Routes sécurisées pour les utilisateurs
+    - { path: ^/api/user/profile, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api/user/update-profile, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api/user/check-auth, roles: PUBLIC_ACCESS }

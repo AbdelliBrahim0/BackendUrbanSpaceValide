@@ -8,17 +8,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
 {
     #[Route('/api/user/profile', name: 'api_user_profile', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
     public function getProfile(): JsonResponse
     {
         /** @var User $user */
         $user = $this->getUser();
+
+        if (!$user) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Utilisateur non connecté'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
 
         return new JsonResponse([
             'success' => true,
@@ -28,7 +33,7 @@ class UserController extends AbstractController
                 'nom' => $user->getNom(),
                 'telephone' => $user->getTelephone(),
                 'adresse' => $user->getAdresse(),
-                'roles' => $user->getRoles(),
+                'roles' => [], // roles vide
                 'avatar' => $user->getAvatar(),
                 'provider' => $user->getProvider(),
                 'isOAuthUser' => $user->isOAuthUser(),
@@ -38,11 +43,18 @@ class UserController extends AbstractController
     }
 
     #[Route('/api/user/update-profile', name: 'api_user_update_profile', methods: ['PUT'])]
-    #[IsGranted('ROLE_USER')]
     public function updateProfile(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         /** @var User $user */
         $user = $this->getUser();
+
+        if (!$user) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Utilisateur non connecté'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
         $data = json_decode($request->getContent(), true);
 
         // Mise à jour des champs autorisés
@@ -67,7 +79,7 @@ class UserController extends AbstractController
                 'nom' => $user->getNom(),
                 'telephone' => $user->getTelephone(),
                 'adresse' => $user->getAdresse(),
-                'roles' => $user->getRoles(),
+                'roles' => [], // roles vide
                 'avatar' => $user->getAvatar(),
                 'provider' => $user->getProvider(),
                 'isOAuthUser' => $user->isOAuthUser(),
@@ -79,7 +91,7 @@ class UserController extends AbstractController
     public function checkAuth(): JsonResponse
     {
         $user = $this->getUser();
-        
+
         if (!$user) {
             return new JsonResponse([
                 'success' => false,
@@ -95,8 +107,8 @@ class UserController extends AbstractController
                 'id' => $user->getId(),
                 'email' => $user->getEmail(),
                 'nom' => $user->getNom(),
-                'roles' => $user->getRoles(),
+                'roles' => [], // roles vide
             ]
         ], Response::HTTP_OK);
     }
-} 
+}

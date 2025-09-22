@@ -25,19 +25,12 @@
                     </small>
                 </td>
                 <td>
-                    {% if sale.isActive() %}
+                    {% if sale.isActive %}
                         <span class="badge badge-success">Active</span>
-                    {% else %}
-                        <span class="badge badge-inactive">Inactive</span>
                     {% endif %}
                 </td>
                 <td>
                     <div class="btn-group">
-                        <a href="{{ path('app_admin_sale_edit', {'id': sale.id}) }}" class="btn-modern btn-sm">
-                            <svg class="icon icon-sm" viewBox="0 0 24 24">
-                                <path d="M17.5 4.5l-9 9-3 3h2l9-9 3-3-2-2-3 3zm-9 9l-1 1 3 3 1-1-3-3z"/>
-                            </svg>
-                        </a>
                         <form method="post" action="{{ path('app_admin_sale_toggle', {'id': sale.id}) }}" class="d-inline">
                             <button type="submit" class="btn-modern btn-sm btn-{{ sale.isActive ? 'warning' : 'success' }}">
                                 <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -88,7 +81,7 @@
         padding: 12px 15px;
         border-top: 1px solid var(--border);
         vertical-align: middle;
-        color: var(--text-primary);
+        color: #0a1a3a;
     }
 
     .table tbody tr:hover td {

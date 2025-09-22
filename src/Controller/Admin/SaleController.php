@@ -19,11 +19,19 @@ class SaleController extends AbstractController
     #[Route('/', name: 'app_admin_sale_index', methods: ['GET'])]
     public function index(SaleRepository $saleRepository): Response
     {
+        // Récupérer les ventes en fonction de leur statut
+        $activeSales = $saleRepository->findActiveSales();
+        $upcomingSales = $saleRepository->findUpcomingSales();
+        $expiredSales = $saleRepository->findExpiredSales();
+        
+        // Toutes les ventes pour l'onglet principal
+        $allSales = array_merge($activeSales, $upcomingSales, $expiredSales);
+        
         return $this->render('admin/sale/index.html.twig', [
-            'sales' => $saleRepository->findBy([], ['createdAt' => 'DESC']),
-            'activeSales' => $saleRepository->findActiveSales(),
-            'upcomingSales' => $saleRepository->findUpcomingSales(),
-            'expiredSales' => $saleRepository->findExpiredSales(),
+            'sales' => $allSales,
+            'activeSales' => $activeSales,
+            'upcomingSales' => $upcomingSales,
+            'expiredSales' => $expiredSales,
         ]);
     }
 
