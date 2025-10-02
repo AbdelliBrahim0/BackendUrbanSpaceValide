@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier le produit - {{ product.name }}{% endblock %}
+{% block title %}Edit product- {{ product.name }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -294,14 +294,14 @@
 {% block body %}
     <div class="container">
         <div class="page-header loading">
-            <h1>Modifier : {{ product.name }}</h1>
+            <h1>Edit : {{ product.name }}</h1>
             <div>
                 <a href="{{ path('admin_products_index') }}" class="btn-light">
                     <svg class="icon icon-sm" viewBox="0 0 24 24">
                         <path d="M19 12H5"/>
                         <path d="M12 19l-7-7 7-7"/>
                     </svg>
-                    Retour à la liste
+                    Back to list
                 </a>
             </div>
         </div>
@@ -321,7 +321,7 @@
 
         <div class="card loading">
             <div class="card-header">
-                <h5 class="mb-0">Modifier les informations du produit</h5>
+                <h5 class="mb-0">Edit product information</h5>
             </div>
             <div class="card-body">
                 {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
@@ -330,12 +330,12 @@
                         <div class="row g-4">
                             <div class="col-md-6 form-group floating">
                                 {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': ' '}}) }}
-                                {{ form_label(form.name, 'Nom du produit', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.name, 'Product name', {'label_attr': {'class': 'form-label'}}) }}
                                 <div class="text-danger">{{ form_errors(form.name) }}</div>
                             </div>
                             <div class="col-md-6 form-group floating">
                                 {{ form_widget(form.price, {'attr': {'class': 'form-control', 'placeholder': ' '}}) }}
-                                {{ form_label(form.price, 'Prix (TND)', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.price, 'Price (TND)', {'label_attr': {'class': 'form-label'}}) }}
                                 <div class="text-danger">{{ form_errors(form.price) }}</div>
                             </div>
                         </div>
@@ -348,7 +348,7 @@
                             </div>
                             <div class="col-md-6 form-group floating">
                                 {{ form_widget(form.size, {'attr': {'class': 'form-control', 'placeholder': ' '}}) }}
-                                {{ form_label(form.size, 'Taille', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.size, 'Size', {'label_attr': {'class': 'form-label'}}) }}
                                 <div class="text-danger">{{ form_errors(form.size) }}</div>
                             </div>
                         </div>
@@ -362,7 +362,7 @@
                         <div class="row g-4">
                             <div class="col-md-6 form-group floating">
                                 {{ form_widget(form.urlImage, {'attr': {'class': 'form-control', 'placeholder': ' ', 'onchange': 'updateImagePreview(this, "previewImage")'}}) }}
-                                {{ form_label(form.urlImage, "URL de l'image", {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.urlImage, "Image URL", {'label_attr': {'class': 'form-label'}}) }}
                                 <div class="image-preview-container">
                                     {% if product.urlImage %}
                                         <img id="previewImage" src="{{ product.urlImage }}" alt="Aperçu de l'image" class="preview-image img-fluid">
@@ -374,7 +374,7 @@
                             </div>
                             <div class="col-md-6 form-group floating">
                                 {{ form_widget(form.urlImageHover, {'attr': {'class': 'form-control', 'placeholder': ' ', 'onchange': 'updateImagePreview(this, "previewImageHover")'}}) }}
-                                {{ form_label(form.urlImageHover, "URL de l'image au survol", {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.urlImageHover, "Image URL on hover", {'label_attr': {'class': 'form-label'}}) }}
                                 <div class="image-preview-container">
                                     {% if product.urlImageHover %}
                                         <img id="previewImageHover" src="{{ product.urlImageHover }}" alt="Aperçu de l'image au survol" class="preview-image img-fluid">
@@ -389,12 +389,12 @@
                         <div class="row g-4">
                             <div class="col-md-6 form-group floating">
                                 {{ form_widget(form.categories, {'attr': {'class': 'form-control'}}) }}
-                                {{ form_label(form.categories, 'Catégories', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.categories, 'Categories', {'label_attr': {'class': 'form-label'}}) }}
                                 <div class="text-danger">{{ form_errors(form.categories) }}</div>
                             </div>
                             <div class="col-md-6 form-group floating">
                                 {{ form_widget(form.subCategories, {'attr': {'class': 'form-control'}}) }}
-                                {{ form_label(form.subCategories, 'Sous-catégories', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.subCategories, 'SubCategories', {'label_attr': {'class': 'form-label'}}) }}
                                 <div class="text-danger">{{ form_errors(form.subCategories) }}</div>
                             </div>
                         </div>
@@ -406,7 +406,7 @@
                                     <polyline points="17 21 17 13 7 13 7 21"/>
                                     <polyline points="7 3 7 8 15 8"/>
                                 </svg>
-                                Enregistrer
+                                Save
                             </button>
                             <a href="{{ path('admin_products_index') }}" class="btn-light ms-2">
                                 <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -414,7 +414,7 @@
                                     <line x1="15" y1="9" x2="9" y2="15"/>
                                     <line x1="9" y1="9" x2="15" y2="15"/>
                                 </svg>
-                                Annuler
+                                Cancel
                             </a>
                         </div>
                     </div>

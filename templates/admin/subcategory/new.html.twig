@@ -471,7 +471,7 @@
                         <path d="M2 13h20"/>
                     </svg>
                 </div>
-                <h1>Nouvelle sous-catégorie</h1>
+                <h1>New subcategory</h1>
             </div>
             <div class="header-actions">
                 <a href="{{ path('admin_subcategories_index') }}" class="btn-modern btn-secondary">
@@ -479,7 +479,7 @@
                         <path d="M19 12H5"/>
                         <path d="M12 19l-7-7 7-7"/>
                     </svg>
-                    Retour à la liste
+                    Back to list
                 </a>
             </div>
         </div>
@@ -492,10 +492,10 @@
                     <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
                     <path d="M2 13h20"/>
                 </svg>
-                Créer une nouvelle sous-catégorie
+                Create a new subcategory
             </div>
             <p class="form-subtitle">
-                Ajoutez une nouvelle sous-catégorie pour organiser plus finement vos produits. Les sous-catégories permettent une classification détaillée.
+                Add a new subcategory to further organize your products. Subcategories allow for detailed classification.
             </p>
 
             {{ form_start(form, {'attr': {'class': 'subcategory-form', 'novalidate': 'novalidate'}}) }}
@@ -505,7 +505,7 @@
                 <div class="form-row">
                     <div class="form-group floating">
                         {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': ' '}}) }}
-                        {{ form_label(form.name, 'Nom de la sous-catégorie', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_label(form.name, 'Subcategory Name', {'label_attr': {'class': 'form-label'}}) }}
                         {% if form_errors(form.name) %}
                             <div class="form-error">
                                 <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -522,7 +522,7 @@
                                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
                                 <line x1="12" y1="17" x2="12.01" y2="17"/>
                             </svg>
-                            Nom descriptif pour identifier facilement cette sous-catégorie
+                            Descriptive name to easily identify this subcategory
                         </div>
                     </div>
                 </div>
@@ -531,7 +531,7 @@
                 <div class="form-row">
                     <div class="form-group floating">
                         {{ form_widget(form.categories, {'attr': {'class': 'form-control select2-multiple'}}) }}
-                        {{ form_label(form.categories, 'Catégories parentes', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_label(form.categories, 'Parent categories', {'label_attr': {'class': 'form-label'}}) }}
                         {% if form_errors(form.categories) %}
                             <div class="form-error">
                                 <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -548,7 +548,7 @@
                                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
                                 <line x1="12" y1="17" x2="12.01" y2="17"/>
                             </svg>
-                            Sélectionnez une ou plusieurs catégories auxquelles cette sous-catégorie appartient
+                            Select one or more categories to which this subcategory belongs
                         </div>
                     </div>
                 </div>
@@ -557,7 +557,7 @@
                 <div class="form-row">
                     <div class="form-group floating">
                         {{ form_widget(form.products, {'attr': {'class': 'form-control select2-multiple'}}) }}
-                        {{ form_label(form.products, 'Produits associés', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_label(form.products, 'Related products', {'label_attr': {'class': 'form-label'}}) }}
                         {% if form_errors(form.products) %}
                             <div class="form-error">
                                 <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -574,7 +574,7 @@
                                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
                                 <line x1="12" y1="17" x2="12.01" y2="17"/>
                             </svg>
-                            Sélectionnez les produits qui appartiennent à cette sous-catégorie (optionnel)
+                            Select the products that belong to this subcategory (optional)
                         </div>
                     </div>
                 </div>
@@ -586,13 +586,13 @@
                         <line x1="18" y1="6" x2="6" y2="18"/>
                         <line x1="6" y1="6" x2="18" y2="18"/>
                     </svg>
-                    Annuler
+                    Cancel
                 </a>
                 <button type="submit" class="btn-modern btn-primary">
                     <svg class="icon icon-sm" viewBox="0 0 24 24">
                         <polyline points="20,6 9,17 4,12"/>
                     </svg>
-                    Créer la sous-catégorie
+                    Create the subcategory
                 </button>
             </div>
 

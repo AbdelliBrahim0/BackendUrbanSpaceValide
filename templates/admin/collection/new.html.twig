@@ -255,10 +255,10 @@
     <div class="page-header animate__animated animate__fadeIn">
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-items-center">
-                <h1><i class="fas fa-boxes me-3"></i>Créer une nouvelle collection</h1>
+                <h1><i class="fas fa-boxes me-3"></i>Create a new collection</h1>
                 </br>
                 <a href="{{ path('admin_collections_index') }}" class="btn btn-back">
-                    <i class="fas fa-arrow-left me-2"></i> Retour à la liste
+                    <i class="fas fa-arrow-left me-2"></i> Back to the  liste
                 </a>
             </div>
         </div>
@@ -270,17 +270,17 @@
                 <div class="collection-icon me-3" style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #30aee5, #2540c8); display: flex; align-items: center; justify-content: center;">
                     <i class="fas fa-box text-white"></i>
                 </div>
-                <h4 class="mb-0" style="color: #2553c8; font-weight: 600;">Informations de la collection</h4>
+                <h4 class="mb-0" style="color: #2553c8; font-weight: 600;">Collection Information</h4>
             </div>
 
             {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
                 <div class="form-section">
                     <div class="form-section-title">
-                        <i class="fas fa-info-circle"></i> Informations de base
+                        <i class="fas fa-info-circle"></i> Basic Information
                     </div>
 
                     <div class="form-group row mb-4">
-                        {{ form_label(form.name, 'Nom de la collection', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
+                        {{ form_label(form.name, 'Name of collection', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <span class="input-group-text" style="background: rgba(37, 200, 173, 0.1); border: 1px solid rgba(37, 200, 173, 0.2); border-right: none; color: #2566c8;">
@@ -301,14 +301,14 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <div class="form-group">
-                                {{ form_label(form.description1, 'Description principale', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.description1, 'Description 1', {'label_attr': {'class': 'form-label'}}) }}
                                 {{ form_widget(form.description1, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Description détaillée de la collection...'}}) }}
                                 <small class="text-danger">{{ form_errors(form.description1) }}</small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                {{ form_label(form.description2, 'Description secondaire', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.description2, 'Description 2', {'label_attr': {'class': 'form-label'}}) }}
                                 {{ form_widget(form.description2, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Informations complémentaires...'}}) }}
                                 <small class="text-danger">{{ form_errors(form.description2) }}</small>
                             </div>
@@ -318,13 +318,13 @@
 
                 <div class="form-section">
                     <div class="form-section-title">
-                        <i class="fas fa-link"></i> Liens externes
+                        <i class="fas fa-link"></i> URLs
                     </div>
 
                     <div class="row mb-4">
                         <div class="col-md-4">
                             <div class="form-group">
-                                {{ form_label(form.url1, 'Lien 1', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.url1, 'url 1', {'label_attr': {'class': 'form-label'}}) }}
                                 {{ form_widget(form.url1, {'attr': {'class': 'form-control', 'placeholder': 'https://example.com'}}) }}
                                 <div id="url1Preview" class="url-preview" style="display: none;">
                                     Aperçu: <a href="#" target="_blank" id="url1Link"></a>
@@ -334,7 +334,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                {{ form_label(form.url2, 'Lien 2', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.url2, 'url 2', {'label_attr': {'class': 'form-label'}}) }}
                                 {{ form_widget(form.url2, {'attr': {'class': 'form-control', 'placeholder': 'https://example.com'}}) }}
                                 <div id="url2Preview" class="url-preview" style="display: none;">
                                     Aperçu: <a href="#" target="_blank" id="url2Link"></a>
@@ -344,7 +344,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                {{ form_label(form.url3, 'Lien 3', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_label(form.url3, 'url 3', {'label_attr': {'class': 'form-label'}}) }}
                                 {{ form_widget(form.url3, {'attr': {'class': 'form-control', 'placeholder': 'https://example.com'}}) }}
                                 <div id="url3Preview" class="url-preview" style="display: none;">
                                     Aperçu: <a href="#" target="_blank" id="url3Link"></a>
@@ -357,15 +357,15 @@
 
                 <div class="form-section">
                     <div class="form-section-title">
-                        <i class="fas fa-box"></i> Produits associés
+                        <i class="fas fa-box"></i> Related products
                     </div>
 
                     <div class="form-group row mb-4">
-                        {{ form_label(form.products, 'Produits associés', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
+                        {{ form_label(form.products, 'Associate Products ', {'label_attr': {'class': 'col-sm-3 col-form-label'}}) }}
                         <div class="col-sm-9">
                             {{ form_widget(form.products, {'attr': {'class': 'form-control select2-multiple', 'data-placeholder': 'Sélectionnez des produits'}}) }}
                             <small class="text-muted">
-                                <i class="fas fa-info-circle me-1"></i> Sélectionnez les produits à associer à cette collection
+                                <i class="fas fa-info-circle me-1"></i> Select the products to associate with this collection
                             </small>
                         </div>
                     </div>
@@ -374,10 +374,10 @@
                 <div class="form-group row mt-4">
                     <div class="col-sm-9 offset-sm-3 d-flex justify-content-between">
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save me-2"></i> Enregistrer la collection
+                            <i class="fas fa-save me-2"></i> Save
                         </button>
                         <a href="{{ path('admin_collections_index') }}" class="btn btn-light">
-                            <i class="fas fa-times me-2"></i> Annuler
+                            <i class="fas fa-times me-2"></i> Cancel
                         </a>
                     </div>
                 </div>

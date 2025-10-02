@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des produits{% endblock %}
+{% block title %}Product Management{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -690,7 +690,7 @@
                         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                     </svg>
                 </div>
-                <h1>Gestion des produits</h1>
+                <h1>Product Management</h1>
             </div>
             <div class="header-actions">
                 <a href="{{ path('admin_products_new') }}" class="btn-modern btn-primary">
@@ -699,14 +699,14 @@
                         <line x1="12" y1="8" x2="12" y2="16"/>
                         <line x1="8" y1="12" x2="16" y2="12"/>
                     </svg>
-                    Nouveau produit
+                    New product
                 </a>
                 <a href="{{ path('admin_dashboard') }}" class="btn-modern btn-secondary">
                     <svg class="icon icon-sm" viewBox="0 0 24 24">
                         <path d="M19 12H5"/>
                         <path d="M12 19l-7-7 7-7"/>
                     </svg>
-                    Retour au dashboard
+                    Back to the dashboard
                 </a>
             </div>
         </div>
@@ -750,7 +750,7 @@
                     </div>
                 </div>
                 <div class="stat-value">{{ totalProducts }}</div>
-                <div class="stat-label">Total produits</div>
+                <div class="stat-label">Total products</div>
             </div>
 
             <div class="stat-card in-stock">
@@ -762,7 +762,7 @@
                     </div>
                 </div>
                 <div class="stat-value">{{ inStockProducts }}</div>
-                <div class="stat-label">En stock</div>
+                <div class="stat-label">In stock</div>
             </div>
 
             <div class="stat-card low-stock">
@@ -776,7 +776,7 @@
                     </div>
                 </div>
                 <div class="stat-value">{{ lowStockProducts }}</div>
-                <div class="stat-label">Stock faible</div>
+                <div class="stat-label">Low stock</div>
             </div>
 
             <div class="stat-card out-of-stock">
@@ -790,7 +790,7 @@
                     </div>
                 </div>
                 <div class="stat-value">{{ outOfStockProducts }}</div>
-                <div class="stat-label">Rupture de stock</div>
+                <div class="stat-label">Out of stock</div>
             </div>
         </div>
 
@@ -802,14 +802,14 @@
                         <path d="M3 12h18"/>
                         <path d="M3 18h18"/>
                     </svg>
-                    <h2>Liste des produits</h2>
+                    <h2>List of products</h2>
                 </div>
                 <div class="table-stats">
                     <div class="stat-badge">
                         <svg class="icon icon-sm" viewBox="0 0 24 24">
                             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                         </svg>
-                        {{ products|length }} produit(s)
+                        {{ products|length }} products
                     </div>
                 </div>
             </div>
@@ -830,14 +830,14 @@
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
                                 <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                             </svg>
-                            Nom
+                            Name
                         </th>
                         <th>
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
                                 <line x1="12" y1="1" x2="12" y2="23"/>
                                 <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                             </svg>
-                            Prix
+                            Price
                         </th>
                         <th>
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -849,14 +849,14 @@
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
                                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
                             </svg>
-                            Catégories
+                            Categories
                         </th>
                         <th>
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
                                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
                                 <path d="M2 13h20"/>
                             </svg>
-                            Sous-catégories
+                            SubCategories
                         </th>
                         <th>
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -865,7 +865,7 @@
                                 <line x1="8" y1="2" x2="8" y2="6"/>
                                 <line x1="3" y1="10" x2="21" y2="10"/>
                             </svg>
-                            Date de création
+                            Creation date
                         </th>
                         <th>
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -896,7 +896,7 @@
                                 <span class="product-name">{{ product.name }}</span>
                             </td>
                             <td>
-                                <span class="product-price">{{ product.price }} €</span>
+                                <span class="product-price">{{ product.price }} TND</span>
                             </td>
                             <td>
                                 {% if product.stock > 10 %}
@@ -904,7 +904,7 @@
                                         <svg class="icon icon-sm" viewBox="0 0 24 24">
                                             <polyline points="20,6 9,17 4,12"/>
                                         </svg>
-                                        {{ product.stock }} en stock
+                                        {{ product.stock }} in stock
                                     </span>
                                 {% elseif product.stock > 0 %}
                                     <span class="stock-badge low-stock">
@@ -913,7 +913,7 @@
                                             <line x1="12" y1="9" x2="12" y2="13"/>
                                             <line x1="12" y1="17" x2="12.01" y2="17"/>
                                         </svg>
-                                        {{ product.stock }} en stock
+                                        {{ product.stock }} in stock
                                     </span>
                                 {% else %}
                                     <span class="stock-badge out-of-stock">
@@ -1115,7 +1115,7 @@
                 ],
                 order: [[6, 'desc']], // Sort by creation date by default
                 language: {
-                    "lengthMenu": "Afficher _MENU_ entrées",
+                    "lengthMenu": "Display _MENU_ entries",
                     "zeroRecords": "Aucun résultat trouvé",
                     "info": "Affichage de _START_ à _END_ sur _TOTAL_ entrées",
                     "infoEmpty": "Affichage de 0 à 0 sur 0 entrées",

@@ -238,20 +238,20 @@
     <div class="container">
         <div class="page-header loading">
             <h1 class="h3 mb-0" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--text-primary);">
-                Ajouter une promotion Black Friday
+                Add a Black Friday promotion
             </h1>
             <a href="{{ path('app_admin_black_friday_index') }}" class="btn-secondary">
                 <svg class="icon icon-sm" viewBox="0 0 24 24">
                     <path d="M19 12H5"/>
                     <path d="M12 19l-7-7 7-7"/>
                 </svg>
-                Retour à la liste
+                Back to list
             </a>
         </div>
 
         <div class="card loading">
             <div class="card-header">
-                <h6 class="card-title">Sélectionner un produit</h6>
+                <h6 class="card-title">Select a product</h6>
             </div>
             <div class="card-body">
                 {% for message in app.flashes('error') %}
@@ -265,9 +265,9 @@
 
                 <form method="post" class="needs-validation" novalidate>
                     <div class="form-group">
-                        <label for="produit" class="form-label">Produit</label>
+                        <label for="produit" class="form-label">Product</label>
                         <select class="form-control" id="produit" name="produit" required>
-                            <option value="">Sélectionnez un produit</option>
+                            <option value="">Select a product</option>
                             {% for produit in produits %}
                                 <option value="{{ produit.id }}">
                                     {{ produit.name }} - {{ produit.price|number_format(2, ',', ' ') }} TND
@@ -275,12 +275,12 @@
                             {% endfor %}
                         </select>
                         <div class="invalid-feedback">
-                            Veuillez sélectionner un produit.
+                            Please select a product.
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="nouveau_prix" class="form-label">Nouveau prix (TND)</label>
+                        <label for="nouveau_prix" class="form-label">New Price</label>
                         <div class="input-group">
                             <input type="number"
                                    class="form-control"
@@ -296,7 +296,7 @@
                             Veuillez entrer un prix valide.
                         </div>
                         <small class="form-text text-muted">
-                            Le prix de vente actuel est de <span id="prix_actuel">-</span> TND
+                            The current selling price is - TND <span id="prix_actuel">-</span> TND
                             <span id="reduction" class="ml-2"></span>
                         </small>
                     </div>
@@ -306,7 +306,7 @@
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
                                 <path d="M5 13l4 4L19 7"/>
                             </svg>
-                            Enregistrer la promotion
+                             Save
                         </button>
                         <a href="{{ path('app_admin_black_friday_index') }}" class="btn-secondary">
                             <svg class="icon icon-sm" viewBox="0 0 24 24">

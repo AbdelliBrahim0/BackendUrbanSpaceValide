@@ -2,12 +2,12 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Produit</th>
-            <th>Remise</th>
-            <th>Prix initial</th>
-            <th>Prix remisé</th>
-            <th>Période</th>
-            <th>Statut</th>
+            <th>Product</th>
+            <th>Sale</th>
+            <th>old price</th>
+            <th>new price</th>
+            <th>period</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -31,13 +31,7 @@
                 </td>
                 <td>
                     <div class="btn-group">
-                        <form method="post" action="{{ path('app_admin_sale_toggle', {'id': sale.id}) }}" class="d-inline">
-                            <button type="submit" class="btn-modern btn-sm btn-{{ sale.isActive ? 'warning' : 'success' }}">
-                                <svg class="icon icon-sm" viewBox="0 0 24 24">
-                                    <path d="{{ sale.isActive ? 'M12 8v8m-4-4h8' : 'M5 12l7-7 7 7' }}"/>
-                                </svg>
-                            </button>
-                        </form>
+
                         <form method="post" action="{{ path('app_admin_sale_delete', {'id': sale.id}) }}"
                               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette remise ?');"
                               class="d-inline">

@@ -476,7 +476,7 @@
                             <line x1="8" y1="12" x2="16" y2="12"/>
                         </svg>
                     </div>
-                    <h1>Nouveau produit</h1>
+                    <h1>New product</h1>
                 </div>
                 <div class="header-actions">
                     <a href="{{ path('admin_products_index') }}" class="btn-modern">
@@ -484,7 +484,7 @@
                             <path d="M19 12H5"/>
                             <path d="M12 19l-7-7 7-7"/>
                         </svg>
-                        Retour à la liste
+                        Back to list
                     </a>
                 </div>
             </div>
@@ -495,10 +495,10 @@
                 <svg class="icon" viewBox="0 0 24 24" style="color: var(--primary);">
                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                 </svg>
-                Créer un nouveau produit
+                Create a new product
             </div>
             <p class="form-subtitle">
-                Ajoutez un nouveau produit à votre catalogue. Remplissez tous les champs nécessaires pour une présentation optimale.
+                Add a new product to your catalog. Fill in all the necessary fields for optimal presentation.
             </p>
 
             {{ form_start(form, {'attr': {'class': 'product-form', 'novalidate': 'novalidate'}}) }}
@@ -507,7 +507,7 @@
                 <div class="form-row">
                     <div class="form-group floating">
                         {{ form_widget(form.name, {'attr': {'class': 'form-control', }}) }}
-                        {{ form_label(form.name, 'Nom du produit', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_label(form.name, 'Product name', {'label_attr': {'class': 'form-label'}}) }}
                         {% if form_errors(form.name) %}
                             <div class="form-error">
                                 <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -524,7 +524,7 @@
                             {{ form_widget(form.price, {'attr': {'class': 'form-control', }}) }}
                             <span class="input-group-text">TND</span>
                         </div>
-                        {{ form_label(form.price, 'Prix', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_label(form.price, 'Price', {'label_attr': {'class': 'form-label'}}) }}
                         {% if form_errors(form.price) %}
                             <div class="form-error">
                                 <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -566,12 +566,12 @@
                                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
                                 <line x1="12" y1="17" x2="12.01" y2="17"/>
                             </svg>
-                            Quantité disponible en stock
+                            Quantity available in stock
                         </div>
                     </div>
                     <div class="form-group floating">
                         {{ form_widget(form.size, {'attr': {'class': 'form-control', }}) }}
-                        {{ form_label(form.size, 'Taille', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_label(form.size, 'Size', {'label_attr': {'class': 'form-label'}}) }}
                         {% if form_errors(form.size) %}
                             <div class="form-error">
                                 <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -587,7 +587,7 @@
 
                 <div class="form-row single">
                     <div class="form-group floating">
-                        {{ form_widget(form.description, {'attr': {'class': 'form-control textarea', 'placeholder': 'Description détaillée du produit, ses caractéristiques, avantages...', 'rows': '4'}}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control textarea', 'placeholder': 'Detailed description of the product, its characteristics, advantages...', 'rows': '4'}}) }}
                         {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
                         {% if form_errors(form.description) %}
                             <div class="form-error">
@@ -605,7 +605,7 @@
                                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
                                 <line x1="12" y1="17" x2="12.01" y2="17"/>
                             </svg>
-                            Description marketing qui sera visible par les clients
+                            Marketing description that will be visible to customers
                         </div>
                     </div>
                 </div>
@@ -613,7 +613,7 @@
                 <div class="form-row">
                     <div class="form-group floating">
                         {{ form_widget(form.urlImage, {'attr': {'class': 'form-control', 'onchange': 'updateImagePreview(this, "previewImage")'}}) }}
-                        {{ form_label(form.urlImage, 'Image principale', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_label(form.urlImage, 'Main image', {'label_attr': {'class': 'form-label'}}) }}
                         <div class="image-preview" id="previewImageContainer">
                             <img id="previewImage" src="#" alt="Aperçu de l'image" style="display: none;">
                             <div class="image-placeholder" id="imagePlaceholder">
@@ -638,7 +638,7 @@
                     </div>
                     <div class="form-group floating">
                         {{ form_widget(form.urlImageHover, {'attr': {'class': 'form-control',  'onchange': 'updateImagePreview(this, "previewImageHover")'}}) }}
-                        {{ form_label(form.urlImageHover, 'Image au survol', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_label(form.urlImageHover, 'Hover image', {'label_attr': {'class': 'form-label'}}) }}
                         <div class="image-preview" id="previewImageHoverContainer">
                             <img id="previewImageHover" src="#" alt="Aperçu de l'image au survol" style="display: none;">
                             <div class="image-placeholder" id="imageHoverPlaceholder">

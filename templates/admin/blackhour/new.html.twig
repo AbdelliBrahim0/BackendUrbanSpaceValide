@@ -234,20 +234,20 @@
     <div class="container">
         <div class="page-header loading">
             <h1 class="h3 mb-0" style="font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--text-primary);">
-                Ajouter une promotion Black Hour
+                Add a Black Hour promotion
             </h1>
             <a href="{{ path('app_admin_black_hour_index') }}" class="btn-secondary">
                 <svg class="icon icon-sm" viewBox="0 0 24 24">
                     <path d="M19 12H5"/>
                     <path d="M12 19l-7-7 7-7"/>
                 </svg>
-                Retour à la liste
+                Back to the list of black hours
             </a>
         </div>
 
         <div class="card loading">
             <div class="card-header">
-                <h6 class="card-title">Détails de la promotion</h6>
+                <h6 class="card-title">Promotion Details</h6>
             </div>
             <div class="card-body">
                 {% for message in app.flashes('error') %}
@@ -261,9 +261,9 @@
 
                 <form method="post" class="needs-validation" novalidate>
                     <div class="form-group mb-4">
-                        <label for="product" class="form-label">Produit</label>
+                        <label for="product" class="form-label">Product</label>
                         <select class="form-control" id="product" name="product" required>
-                            <option value="">Sélectionnez un produit</option>
+                            <option value="">Select a product</option>
                             {% for product in products %}
                                 <option value="{{ product.id }}" data-price="{{ product.price }}">
                                     {{ product.name }} - {{ product.price|number_format(2, ',', ' ') }} TND
@@ -271,14 +271,14 @@
                             {% endfor %}
                         </select>
                         <div class="invalid-feedback">
-                            Veuillez sélectionner un produit.
+                            you must select a product to add a black hour promotion.
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-4">
-                                <label for="start_time" class="form-label">Date et heure de début</label>
+                                <label for="start_time" class="form-label">Start date and time</label>
                                 <input type="datetime-local"
                                        class="form-control"
                                        id="start_time"
@@ -286,7 +286,7 @@
                                        required
                                        min="{{ 'now'|date('Y-m-d\TH:i') }}">
                                 <div class="invalid-feedback">
-                                    Veuillez sélectionner une date et heure de début valides.
+                                    Please select a valid start date and time.
                                 </div>
                             </div>
                         </div>
@@ -300,14 +300,14 @@
                                        required
                                        min="{{ 'now'|date('Y-m-d\TH:i') }}">
                                 <div class="invalid-feedback">
-                                    Veuillez sélectionner une date et heure de fin valides.
+                                    Please select a valid end date and time.
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group mb-4">
-                        <label for="discounted_price" class="form-label">Prix promotionnel (TND)</label>
+                        <label for="discounted_price" class="form-label">Promotional price (TND)</label>
                         <div class="input-group">
                             <input type="number"
                                    class="form-control"
@@ -317,13 +317,13 @@
                                    min="0.01"
                                    required
                                    oninput="calculateDiscount(this)">
-                            <span class="input-group-text">€</span>
+                            <span class="input-group-text">TND</span>
                         </div>
                         <div class="invalid-feedback">
-                            Veuillez entrer un prix valide.
+                            Please enter a valid price.
                         </div>
                         <small class="form-text text-muted">
-                            Le prix de vente actuel est de <span id="current_price">-</span> TND
+                            The current selling price is<span id="current_price">-</span> TND
                             <span id="discount" class="ml-2"></span>
                         </small>
                     </div>
@@ -333,13 +333,13 @@
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
                                 <path d="M5 13l4 4L19 7"/>
                             </svg>
-                            Enregistrer la promotion
+                            Save
                         </button>
                         <a href="{{ path('app_admin_black_hour_index') }}" class="btn-secondary">
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
                                 <path d="M6 18L18 6M6 6l12 12"/>
                             </svg>
-                            Annuler
+                            Cancel
                         </a>
                     </div>
                 </form>

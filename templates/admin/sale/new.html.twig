@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvelle Remise{% endblock %}
+{% block title %}Sale{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -248,28 +248,28 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="product" class="form-label">Produit</label>
+                                <label for="product" class="form-label">Product</label>
                                 <select class="form-select" id="product" name="product" required>
-                                    <option value="">Sélectionnez un produit</option>
+                                    <option value="">Sélect a product</option>
                                     {% for product in products %}
                                         <option value="{{ product.id }}">{{ product.name }} - {{ product.price|number_format(2, ',', ' ') }} tnd</option>
                                     {% endfor %}
                                 </select>
                                 <div class="invalid-feedback">
-                                    Veuillez sélectionner un produit.
+                                    you must select a product.
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="discount_percentage" class="form-label">Pourcentage de remise</label>
+                                <label for="discount_percentage" class="form-label">Discount percentage</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" id="discount_percentage"
                                            name="discount_percentage" min="1" max="100" required>
                                     <span class="input-group-text">%</span>
                                 </div>
                                 <div class="invalid-feedback">
-                                    Veuillez entrer un pourcentage valide (1-100).
+                                    Please enter a valid percentage (1-100).
                                 </div>
                             </div>
                         </div>
@@ -278,28 +278,28 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="start_date" class="form-label">Date de début</label>
+                                <label for="start_date" class="form-label">Start date</label>
                                 <input type="datetime-local" class="form-control" id="start_date"
                                        name="start_date" required>
                                 <div class="invalid-feedback">
-                                    Veuillez sélectionner une date de début valide.
+                                    Please select a valid start date.
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="end_date" class="form-label">Date de fin</label>
+                                <label for="end_date" class="form-label">end date</label>
                                 <input type="datetime-local" class="form-control" id="end_date"
                                        name="end_date" required>
                                 <div class="invalid-feedback">
-                                    Veuillez sélectionner une date de fin valide.
+                                    Please select a valid end date.
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="description" class="form-label">Description (optionnel)</label>
+                        <label for="description" class="form-label">Description </label>
                         <textarea class="form-control" id="description" name="description"
                                   rows="3"></textarea>
                     </div>
@@ -309,7 +309,7 @@
                             <svg class="icon icon-sm" viewBox="0 0 24 24">
                                 <path d="M5 13l4 4L19 7"/>
                             </svg>
-                            Enregistrer
+                            Save
                         </button>
                     </div>
                 </form>
