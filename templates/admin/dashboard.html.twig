@@ -117,10 +117,10 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('admin_dashboard') }}">UrbanSpace Admin</a>
         <div class="navbar-nav ms-auto d-flex align-items-center">
-            <span class="nav-link">Bienvenue, {{ app.user.username }}</span>
+            <span class="nav-link">Welcome, {{ app.user.username }}</span>
             <form class="d-inline ms-3" action="{{ path('admin_logout') }}" method="post">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
-                <button type="submit" class="btn btn-link nav-link" style="border: none; background: none;">Déconnexion</button>
+                <button type="submit" class="btn btn-link nav-link" style="border: none; background: none;">Log Out</button>
             </form>
         </div>
     </div>
@@ -132,25 +132,25 @@
     <div class="row g-4">
         <div class="col-md-3">
             <div class="stats-card animate__animated animate__fadeInUp">
-                <h5>Utilisateurs</h5>
+                <h5>Users</h5>
                 <canvas id="chartUsers"></canvas>
             </div>
         </div>
         <div class="col-md-3">
             <div class="stats-card animate__animated animate__fadeInUp">
-                <h5>Produits</h5>
+                <h5>Products</h5>
                 <canvas id="chartProducts"></canvas>
             </div>
         </div>
         <div class="col-md-3">
             <div class="stats-card animate__animated animate__fadeInUp">
-                <h5>Commandes</h5>
+                <h5>Orders</h5>
                 <canvas id="chartOrders"></canvas>
             </div>
         </div>
         <div class="col-md-3">
             <div class="stats-card animate__animated animate__fadeInUp">
-                <h5>Revenus</h5>
+                <h5>Income</h5>
                 <canvas id="chartRevenue"></canvas>
             </div>
         </div>
@@ -161,45 +161,45 @@
         <div class="col-md-4">
             <div class="card gestion-card text-center p-4 h-100 shadow-lg">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">Utilisateurs</h5>
-                    <p class="card-text">Gérer tous les utilisateurs inscrits sur UrbanSpace.</p>
-                    <a href="/admin/users" class="btn btn-gestion">Gérer</a>
+                    <h5 class="card-title">Users</h5>
+                    <p class="card-text">Manage all users registered on UrbanSpace.</p>
+                    <a href="/admin/users" class="btn btn-gestion">Manage</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card gestion-card text-center p-4 h-100 shadow-lg">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">Commandes</h5>
-                    <p class="card-text">Gérer et suivre les commandes des clients.</p>
-                    <a href="{{ path('admin_orders_index') }}" class="btn btn-gestion">Gérer</a>
+                    <h5 class="card-title">Orders</h5>
+                    <p class="card-text">Manage and track customer orders.</p>
+                    <a href="{{ path('admin_orders_index') }}" class="btn btn-gestion">Manage</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card gestion-card text-center p-4 h-100 shadow-lg">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">Catégories</h5>
-                    <p class="card-text">Ajouter, modifier ou supprimer des catégories de produits.</p>
-                    <a href="/admin/categories" class="btn btn-gestion">Gérer</a>
+                    <h5 class="card-title">Categories</h5>
+                    <p class="card-text">Add, edit or delete product categories.</p>
+                    <a href="/admin/categories" class="btn btn-gestion">Manage</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card gestion-card text-center p-4 h-100 shadow-lg">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">Sous-Catégories</h5>
-                    <p class="card-text">Gérer les sous-catégories associées aux catégories.</p>
-                    <a href="/admin/subcategories" class="btn btn-gestion">Gérer</a>
+                    <h5 class="card-title">sub-Categories</h5>
+                    <p class="card-text">Manage subcategories associated with categories.</p>
+                    <a href="/admin/subcategories" class="btn btn-gestion">Manage</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card gestion-card text-center p-4 h-100 shadow-lg">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">Produits</h5>
-                    <p class="card-text">Ajouter ou modifier les produits disponibles.</p>
-                    <a href="/admin/products" class="btn btn-gestion">Gérer</a>
+                    <h5 class="card-title">Product</h5>
+                    <p class="card-text">Add or modify available products.</p>
+                    <a href="/admin/products" class="btn btn-gestion">Manage</a>
                 </div>
             </div>
         </div>
@@ -207,8 +207,8 @@
             <div class="card gestion-card text-center p-4 h-100 shadow-lg">
                 <div class="card-body d-flex flex-column justify-content-between">
                     <h5 class="card-title">Collections</h5>
-                    <p class="card-text">Gérer les collections de produits .</p>
-                    <a href="/admin/collections" class="btn btn-gestion">Gérer</a>
+                    <p class="card-text">Manage product collections .</p>
+                    <a href="/admin/collections" class="btn btn-gestion">Manage</a>
                 </div>
             </div>
         </div>
@@ -223,8 +223,8 @@
                                    style="width: 3em; height: 1.5em;">
                         </div>
                     </div>
-                    <p class="card-text">Configurer les offres et réductions Black Friday.</p>
-                    <a href="/admin/black-friday" class="btn btn-gestion">Gérer</a>
+                    <p class="card-text">Configure Black Friday offers and discounts.</p>
+                    <a href="/admin/black-friday" class="btn btn-gestion">Manage</a>
                 </div>
             </div>
         </div>
@@ -239,17 +239,17 @@
                                    style="width: 3em; height: 1.5em;">
                         </div>
                     </div>
-                    <p class="card-text">Configurer les offres et réductions Black Hour.</p>
-                    <a href="/admin/black-hour" class="btn btn-gestion">Gérer</a>
+                    <p class="card-text">Configure Black Hour offers and discounts.</p>
+                    <a href="/admin/black-hour" class="btn btn-gestion">Manage</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card gestion-card text-center p-4 h-100 shadow-lg">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">Remise</h5>
-                    <p class="card-text">Configurer les offres et réductions .</p>
-                    <a href="/admin/sales" class="btn btn-gestion">Gérer</a>
+                    <h5 class="card-title">Sale</h5>
+                    <p class="card-text">Configure offers and discounts.</p>
+                    <a href="/admin/sales" class="btn btn-gestion">Manage</a>
                 </div>
             </div>
         </div>
@@ -261,7 +261,7 @@
     const usersChart = new Chart(document.getElementById('chartUsers'), {
         type: 'line',
         data: {
-            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun'],
             datasets: [{
                 label: 'Utilisateurs',
                 data: [50, 100, 150, 200, 300, 400],
@@ -305,9 +305,9 @@
     const ordersChart = new Chart(document.getElementById('chartOrders'), {
         type: 'line',
         data: {
-            labels: ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'],
+            labels: ['week 1', 'week 2', 'week 3', 'weekA 4'],
             datasets: [{
-                label: 'Commandes',
+                label: 'Orders',
                 data: [30, 60, 50, 90],
                 borderColor: '#30aee6',
                 backgroundColor: 'rgba(48, 174, 230, 0.2)',
@@ -329,7 +329,7 @@
     const revenueChart = new Chart(document.getElementById('chartRevenue'), {
         type: 'bar',
         data: {
-            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun'],
             datasets: [{
                 label: 'Revenus',
                 data: [5000, 7000, 6000, 8000, 12000, 15000],

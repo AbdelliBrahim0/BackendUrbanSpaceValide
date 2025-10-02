@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvelle catégorie{% endblock %}
+{% block title %}New categorie{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -397,7 +397,7 @@
                         <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
                     </svg>
                 </div>
-                <h1>Nouvelle catégorie</h1>
+                <h1>New categorie</h1>
             </div>
             <div class="header-actions">
                 <a href="{{ path('admin_categories_index') }}" class="btn-modern btn-secondary">
@@ -405,7 +405,7 @@
                         <path d="M19 12H5"/>
                         <path d="M12 19l-7-7 7-7"/>
                     </svg>
-                    Retour à la liste
+                    Back to the list
                 </a>
             </div>
         </div>
@@ -417,17 +417,16 @@
                 <svg class="icon" viewBox="0 0 24 24" style="color: var(--primary);">
                     <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
                 </svg>
-                Créer une nouvelle catégorie
+                New categorie
             </div>
             <p class="form-subtitle">
-                Ajoutez une nouvelle catégorie de produits à votre catalogue. Les catégories permettent d'organiser vos produits de manière logique.
-            </p>
+                Add a new product category to your catalog. Categories allow you to organize your products logically.
 
             {{ form_start(form, {'attr': {'class': 'category-form', 'novalidate': 'novalidate'}}) }}
 
             <div class="form-group floating">
                 {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': ' '}}) }}
-                {{ form_label(form.name, 'Nom de la catégorie', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_label(form.name, 'Name of  categorie', {'label_attr': {'class': 'form-label'}}) }}
                 {% if form_errors(form.name) %}
                     <div class="form-error">
                         <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -463,13 +462,13 @@
                         <line x1="18" y1="6" x2="6" y2="18"/>
                         <line x1="6" y1="6" x2="18" y2="18"/>
                     </svg>
-                    Annuler
+                    Cancel
                 </a>
                 <button type="submit" class="btn-modern btn-primary">
                     <svg class="icon icon-sm" viewBox="0 0 24 24">
                         <polyline points="20,6 9,17 4,12"/>
                     </svg>
-                    Créer la catégorie
+                    Create categorie
                 </button>
             </div>
 

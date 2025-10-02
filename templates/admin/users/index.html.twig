@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des utilisateurs{% endblock %}
+{% block title %}User management{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -343,9 +343,9 @@
     <div class="page-header animate__animated animate__fadeIn">
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-items-center header">
-                <h1><i class="fas fa-users me-3"></i>Gestion des utilisateurs</h1>
+                <h1><i class="fas fa-users me-3"></i>User management</h1>
                 <a href="{{ path('admin_dashboard') }}" class="btn-back">
-                    <i class="fas fa-arrow-left"></i> Retour au dashboard
+                    <i class="fas fa-arrow-left"></i> Back to dashboard
                 </a>
             </div>
         </div>
@@ -355,8 +355,8 @@
         <!-- Search -->
         <div class="search-box mb-4">
             <form method="get" action="{{ path('admin_users_index') }}" class="d-flex">
-                <input type="text" name="search" class="form-control me-2" placeholder="Rechercher un utilisateur..." value="{{ search }}">
-                <button type="submit"><i class="bi bi-search"></i> Rechercher</button>
+                <input type="text" name="search" class="form-control me-2" placeholder="To research..." value="{{ search }}">
+                <button type="submit"><i class="bi bi-search"></i> Research</button>
             </form>
         </div>
 
@@ -365,22 +365,22 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="d-flex align-items-center">
                     <i class="fas fa-table me-2" style="color: #60a5fa;"></i>
-                    <h5 class="mb-0" style="color: #60a5fa; font-weight: 600;">Liste des utilisateurs</h5>
+                    <h5 class="mb-0" style="color: #60a5fa; font-weight: 600;">Users List</h5>
                 </div>
                 <div class="user-stats">
                 <span class="badge bg-primary">
-                    <i class="fas fa-users me-1"></i> {{ users|length }} utilisateur(s)
+                    <i class="fas fa-users me-1"></i> {{ users|length }} Users
                 </span>
                 </div>
             </div>
             <table id="usersTable" class="table table-borderless align-middle">
                 <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Photo</th>
-                    <th>Nom</th>
+                    <th>Id</th>
+                    <th>Image</th>
+                    <th>Name</th>
                     <th>Email</th>
-                    <th>Téléphone</th>
+                    <th>Phone</th>
                     <th>Actions</th>
                 </tr>
                 </thead>

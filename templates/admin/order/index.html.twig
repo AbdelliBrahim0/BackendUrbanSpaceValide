@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des Commandes - Admin{% endblock %}
+{% block title %}Order Management - Admin{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -18,7 +18,7 @@
             --bg-secondary: #1e3a8a;
             --surface: rgba(17, 24, 39, 0.95);
             --card-bg: rgba(31, 41, 55, 0.8);
-            --text-primary:rgb(54, 13, 255);
+            --text-primary: rgb(246, 245, 245);
             --text-secondary: #9ca3af;
             --text-muted: #6b7280;
             --border: rgba(59, 130, 246, 0.2);
@@ -212,30 +212,28 @@
     <div class="row">
         <div class="col-12">
             <div class="page-header loading">
-                <h1>Gestion des Commandes - Admin</h1>
+                <h1>Order Management - Admin</h1>
                 <div>
                     <a href="{{ path('admin_dashboard') }}" class="btn-secondary">
                         <svg class="icon icon-sm" viewBox="0 0 24 24">
                             <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                         </svg>
-                        Retour au tableau de bord
+                        Back to Dashboard
                     </a>
                 </div>
             </div>
             <div class="card loading">
-                <div class="card-header">
-                    <h6 class="card-title" style="margin-top: 15px;">Liste des Commandes</h6>
-                </div>
+
                 <div class="card-body px-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">N° Commande</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Client</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order Number</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">User</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Montant</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Statut</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ammount</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                                 </tr>
                             </thead>
@@ -291,7 +289,7 @@
                                 {% else %}
                                 <tr class="loading">
                                     <td colspan="6" class="text-center py-4">
-                                        Aucune commande trouvée
+                                        No Order Found
                                     </td>
                                 </tr>
                                 {% endfor %}
