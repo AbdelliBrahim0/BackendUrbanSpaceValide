@@ -22,8 +22,14 @@ class OrderController extends AbstractController
     }
 
     #[Route('/{id}', name: 'admin_order_show', methods: ['GET'])]
-    public function show(Order $order): Response
+    public function show(Order $order, Request $request): Response
     {
+        if ($request->query->get('print')) {
+            return $this->render('admin/order/print.html.twig', [
+                'order' => $order,
+            ]);
+        }
+
         return $this->render('admin/order/show.html.twig', [
             'order' => $order,
         ]);

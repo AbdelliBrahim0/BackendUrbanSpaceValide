@@ -385,6 +385,144 @@
             opacity: 0;
             transform: translateY(30px);
         }
+
+        /* Styles personnalisés pour les listes de sélection */
+        .select2-container {
+            width: 100% !important;
+            margin-bottom: 1.5rem;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            background-color: var(--card-bg) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 8px !important;
+            min-height: 45px;
+            padding: 2px 5px;
+            transition: all 0.2s ease;
+        }
+
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+            outline: none;
+        }
+
+        /* Style des tags sélectionnés */
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: var(--primary) !important;
+            border: 1px solid var(--primary) !important;
+            border-radius: 6px !important;
+            color: white !important;
+            padding: 2px 8px !important;
+            margin: 3px !important;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* Style du bouton de suppression des tags */
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: rgba(255, 255, 255, 0.7) !important;
+            margin-right: 5px;
+            border: none !important;
+            padding: 0 4px;
+            font-size: 1.1em;
+            line-height: 1;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+            color: white !important;
+            background: transparent !important;
+        }
+
+        /* Style du champ de recherche */
+        .select2-container--default .select2-search--inline .select2-search__field {
+            color: var(--text-primary) !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
+            padding: 5px 0;
+            margin: 0;
+            min-height: 30px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .select2-search--inline {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Style des options dans la liste déroulante */
+        .select2-container--default .select2-results__option {
+            background-color: var(--card-bg) !important;
+            color: var(--text-primary) !important;
+            padding: 10px 15px !important;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: var(--primary) !important;
+            color: white !important;
+        }
+
+        /* Style du conteneur de la liste déroulante */
+        .select2-container--default .select2-dropdown {
+            background-color: var(--card-bg) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 8px !important;
+            box-shadow: var(--shadow) !important;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        /* Style des options sélectionnées dans la liste */
+        .select2-container--default .select2-results__option[aria-selected=true] {
+            background-color: rgba(59, 130, 246, 0.3) !important;
+            color: var(--primary) !important;
+        }
+
+        /* Style du conteneur des tags sélectionnés */
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0 5px;
+            margin: 0;
+        }
+
+        /* Style du bouton pour effacer la sélection */
+        .select2-container--default .select2-selection--multiple .select2-selection__clear {
+            color: var(--text-muted);
+            margin-right: 5px;
+            font-size: 1.2em;
+            line-height: 1;
+            padding: 5px;
+            transition: color 0.2s ease;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__clear:hover {
+            color: var(--error);
+        }
+
+        /* Style du placeholder */
+        .select2-container--default .select2-selection--multiple .select2-selection__placeholder {
+            color: var(--text-muted) !important;
+            padding-left: 5px;
+        }
+
+        /* Style des messages d'erreur */
+        .select2-container--default .select2-results__option--disabled {
+            color: var(--text-muted) !important;
+            font-style: italic;
+        }
+
+        /* Amélioration de l'accessibilité au focus */
+        .select2-container--default .select2-results__option:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: -2px;
+        }
     </style>
 {% endblock %}
 
@@ -456,6 +594,42 @@
                 </div>
             {% endif %}
 
+            <!-- Sous-catégories -->
+            {% if form.subCategories is defined %}
+                <div class="form-group floating">
+                    {{ form_widget(form.subCategories, {'attr': {'class': 'form-control select2-multiple', 'data-placeholder': ''}}) }}
+                    {{ form_label(form.subCategories, 'Sous-catégories', {'label_attr': {'class': 'form-label'}}) }}
+                    {% if form_errors(form.subCategories) %}
+                        <div class="form-error">
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="15" y1="9" x2="9" y2="15"/>
+                                <line x1="9" y1="9" x2="15" y2="15"/>
+                            </svg>
+                            {{ form_errors(form.subCategories) }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <!-- Produits -->
+            {% if form.products is defined %}
+                <div class="form-group floating">
+                    {{ form_widget(form.products, {'attr': {'class': 'form-control select2-multiple', 'data-placeholder': ''}}) }}
+                    {{ form_label(form.products, 'Produits associés', {'label_attr': {'class': 'form-label'}}) }}
+                    {% if form_errors(form.products) %}
+                        <div class="form-error">
+                            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="15" y1="9" x2="9" y2="15"/>
+                                <line x1="9" y1="9" x2="15" y2="15"/>
+                            </svg>
+                            {{ form_errors(form.products) }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+
             <div class="form-actions">
                 <a href="{{ path('admin_categories_index') }}" class="btn-modern btn-cancel">
                     <svg class="icon icon-sm" viewBox="0 0 24 24">
@@ -476,7 +650,73 @@
         </div>
     </div>
 
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        /* Correction des styles pour Select2 */
+        .select2-container--default .select2-selection--multiple {
+            background-color: var(--card-bg) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 8px !important;
+            min-height: 45px;
+            padding: 2px 5px;
+            transition: all 0.2s ease;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: var(--primary) !important;
+            border: 1px solid var(--primary) !important;
+            color: white !important;
+            padding: 2px 8px !important;
+            margin: 3px !important;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: rgba(255, 255, 255, 0.7) !important;
+            margin-right: 5px;
+        }
+
+        .select2-container--default .select2-results__option {
+            background-color: var(--card-bg) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: var(--primary) !important;
+            color: white !important;
+        }
+
+        .select2-dropdown {
+            background-color: var(--card-bg) !important;
+            border: 1px solid var(--border) !important;
+        }
+    </style>
+
+    <!-- jQuery et Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
     <script>
+        // Initialisation de Select2
+        $(document).ready(function() {
+            $('.select2-multiple').select2({
+                theme: 'default',
+                width: '100%',
+                placeholder: function() {
+                    return $(this).data('placeholder');
+                },
+                allowClear: true,
+                dropdownParent: $('.form-container')
+            });
+            
+            // Ajustement des styles après le chargement de Select2
+            $('.select2-container--default .select2-selection--multiple').css({
+                'background-color': 'var(--card-bg)',
+                'border-color': 'var(--border)',
+                'color': 'var(--text-primary)'
+            });
+        });
+
         // GSAP Animations
         window.addEventListener('load', function() {
             // Page header animation
